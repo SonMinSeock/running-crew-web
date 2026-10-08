@@ -1,9 +1,17 @@
 import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import HomePage from './pages/home/HomePage';
+import LoginPage from './pages/auth/LoginPage';
+import SignupPage from './pages/auth/SignupPage';
 
 function App() {
   return (
     <>
-      <div>Runnig Crew Rebuild</div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
     </>
   );
 }
