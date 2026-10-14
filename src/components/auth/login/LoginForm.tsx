@@ -1,6 +1,6 @@
 import { LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import AuthInputField from "@/components/auth/AuthInputField";
+import AuthInputField from "@/components/auth/common/AuthInputField";
 
 interface LoginFormProps {
   showErrors?: boolean;
