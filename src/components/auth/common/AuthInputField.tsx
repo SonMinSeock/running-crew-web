@@ -8,6 +8,7 @@ interface AuthInputFieldProps extends ComponentProps<typeof Input> {
   label: string;
   icon: LucideIcon;
   error?: string;
+  showLabel?: boolean;
 }
 
 export default function AuthInputField({
@@ -15,6 +16,8 @@ export default function AuthInputField({
   label,
   icon: Icon,
   error = "",
+  showLabel = false,
+  required = false,
   className,
   ...props
 }: AuthInputFieldProps) {
@@ -23,8 +26,18 @@ export default function AuthInputField({
 
   return (
     <div>
-      <label htmlFor={id} className="sr-only">
+      <label
+        htmlFor={id}
+        className={cn(
+          showLabel ? "text-app-subtext mb-2 block text-sm" : "sr-only",
+        )}
+      >
         {label}
+        {showLabel && required && (
+          <span className="text-app-error ml-1" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <div
         className={cn(
@@ -44,6 +57,7 @@ export default function AuthInputField({
         <Input
           {...props}
           id={id}
+          required={required}
           aria-invalid={hasError}
           aria-describedby={hasError ? errorId : ""}
           className={cn(
