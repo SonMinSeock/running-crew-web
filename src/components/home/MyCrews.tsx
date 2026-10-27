@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface Crew {
   id: number;
@@ -36,18 +37,18 @@ export default function MyCrews() {
           내 크루
         </h2>
         <Button
-          type="button"
+          asChild
           variant="link"
           className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
         >
-          전체 보기
+          <Link to="/crews#joined-crews">전체 보기</Link>
         </Button>
       </div>
-      <ul className="mt-4 flex gap-3 overflow-x-auto pb-2">
-        {MY_CREWS.map((crew) => (
+      <ul className="mt-4 flex gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-3">
+        {MY_CREWS.slice(0, 3).map((crew) => (
           <li
             key={crew.id}
-            className="bg-app-card border-app-border hover:border-app-accent flex w-28 shrink-0 cursor-pointer flex-col items-center rounded-2xl border px-3 py-4 text-center transition-colors"
+            className="bg-app-card border-app-border hover:border-app-accent flex w-28 shrink-0 cursor-pointer flex-col items-center rounded-2xl border px-3 py-4 text-center transition-colors md:w-auto"
           >
             <div
               className="bg-app-text/5 flex size-12 items-center justify-center rounded-full text-2xl"

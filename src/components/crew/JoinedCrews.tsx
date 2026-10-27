@@ -1,5 +1,6 @@
 import { CalendarDays, ChevronRight, MapPin, UsersRound } from "lucide-react";
-
+import { useRef, useState } from "react";
+import ListPagination from "@/components/common/ListPagination";
 interface JoinedCrew {
   id: number;
   emoji: string;
@@ -9,36 +10,40 @@ interface JoinedCrew {
   nextRun: string; // 다음 러닝, ex) 10월 29일 (목) 오전 6:00
 }
 
-const JOINED_CREWS: JoinedCrew[] = [
-  {
-    id: 1,
-    emoji: "🌙",
-    name: "새벽 러너스",
-    memberCount: 24,
-    region: "여의도",
-    nextRun: "10월 29일 (목) 오전 6:00",
-  },
-  {
-    id: 2,
-    emoji: "🌊",
-    name: "한강 크루",
-    memberCount: 18,
-    region: "한강",
-    nextRun: "11월 1일 (일) 오전 7:30",
-  },
-  {
-    id: 3,
-    emoji: "⛰️",
-    name: "주말 러닝",
-    memberCount: 32,
-    region: "잠실",
-    nextRun: "11월 1일 (일) 오전 8:00",
-  },
-];
+const JOINED_CREWS: JoinedCrew[] = Array.from({ length: 25 }, (_, index) => ({
+  id: index + 1,
+  emoji: "🌙",
+  name: `가입한 크루 ${index + 1}`,
+  memberCount: 20 + index,
+  region: "여의도",
+  nextRun: "10월 29일 (목) 오전 6:00",
+}));
+
+const PAGE_SIZE = 5;
 
 export default function JoinedCrews() {
+  const [page, setPage] = useState(1);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const totalPages = Math.ceil(JOINED_CREWS.length / PAGE_SIZE);
+  const startIndex = (page - 1) * PAGE_SIZE;
+  const visibleCrews = JOINED_CREWS.slice(startIndex, startIndex + PAGE_SIZE);
+
+  const changePage = (nextPage: number) => {
+    setPage(nextPage);
+    sectionRef.current?.scrollIntoView({
+      behavior: "instant",
+      block: "start",
+    });
+  };
+
   return (
-    <section aria-labelledby="joined-crews-title" className="mt-8">
+    <section
+      id="joined-crews"
+      ref={sectionRef}
+      aria-labelledby="joined-crews-title"
+      className="mt-8 scroll-mt-24"
+    >
       <div className="flex items-center justify-between gap-3">
         <h2 id="joined-crews-title" className="text-lg font-bold">
           내가 가입한 크루
@@ -48,7 +53,7 @@ export default function JoinedCrews() {
         </span>
       </div>
       <ul className="mt-4 space-y-3">
-        {JOINED_CREWS.map((crew) => (
+        {visibleCrews.map((crew) => (
           <li
             key={crew.id}
             className="bg-app-card border-app-border hover:border-app-accent flex cursor-pointer items-center gap-4 rounded-2xl border p-4 transition-colors"
@@ -87,6 +92,12 @@ export default function JoinedCrews() {
           </li>
         ))}
       </ul>
+      <ListPagination
+        page={page}
+        totalPages={totalPages}
+        label="내가 가입한 크루 페이지"
+        onPageChange={changePage}
+      />
     </section>
   );
 }

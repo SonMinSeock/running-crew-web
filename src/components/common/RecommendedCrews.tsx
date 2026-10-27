@@ -1,5 +1,8 @@
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import ListPagination from "@/components/common/ListPagination";
+import { Link } from "react-router-dom";
 
 interface RecommendedCrew {
   id: number;
@@ -10,37 +13,20 @@ interface RecommendedCrew {
   region: string;
   difficulty: "초급" | "중급" | "고급";
 }
-
-const RECOMMENDED_CREWS: RecommendedCrew[] = [
-  {
-    id: 1,
-    emoji: "🏙️",
-    name: "강남 러닝클럽",
-    memberCount: 45,
-    distanceKm: 5,
-    region: "강남",
-    difficulty: "초급",
-  },
-  {
-    id: 2,
+const RECOMMENDED_CREWS: RecommendedCrew[] = Array.from(
+  { length: 30 },
+  (_, index) => ({
+    id: index + 1,
     emoji: "🏃",
-    name: "마라톤 준비반",
-    memberCount: 28,
-    distanceKm: 10,
-    region: "잠실",
-    difficulty: "중급",
-  },
-  {
-    id: 3,
-    emoji: "🌙",
-    name: "야간 러닝 크루",
-    memberCount: 36,
-    distanceKm: 7,
+    name: `러닝 크루 ${index + 1}`,
+    memberCount: 20 + index,
+    distanceKm: 5,
     region: "한강",
-    difficulty: "고급",
-  },
-];
+    difficulty: "초급",
+  }),
+);
 
+const PAGE_SIZE = 5;
 interface RecommendedCrewsProps {
   variant?: "home" | "crew";
 }
@@ -48,8 +34,32 @@ interface RecommendedCrewsProps {
 export default function RecommendedCrews({
   variant = "home",
 }: RecommendedCrewsProps) {
+  const [page, setPage] = useState(1);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const totalPages = Math.ceil(RECOMMENDED_CREWS.length / PAGE_SIZE);
+  const startIndex = (page - 1) * PAGE_SIZE;
+
+  const visibleCrews =
+    variant === "home"
+      ? RECOMMENDED_CREWS.slice(0, 3)
+      : RECOMMENDED_CREWS.slice(startIndex, startIndex + PAGE_SIZE);
+
+  const changePage = (nextPage: number) => {
+    setPage(nextPage);
+    sectionRef.current?.scrollIntoView({
+      behavior: "instant",
+      block: "start",
+    });
+  };
+
   return (
-    <section aria-labelledby="recommended-crews-title" className="mt-8">
+    <section
+      id="recommended-crews"
+      ref={sectionRef}
+      aria-labelledby="recommended-crews-title"
+      className="mt-8 scroll-mt-24"
+    >
       <div className="flex items-center justify-between gap-3">
         <h2 id="recommended-crews-title" className="text-lg font-bold">
           추천 크루
@@ -60,16 +70,16 @@ export default function RecommendedCrews({
           </span>
         ) : (
           <Button
-            type="button"
+            asChild
             variant="link"
             className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
           >
-            전체 보기
+            <Link to="/crews#recommended-crews">전체 보기</Link>
           </Button>
         )}
       </div>
       <ul className="mt-4 space-y-3">
-        {RECOMMENDED_CREWS.map((crew) => (
+        {visibleCrews.map((crew) => (
           <li
             key={crew.id}
             className="bg-app-card border-app-border hover:border-app-accent flex cursor-pointer items-center gap-3 rounded-2xl border p-4 transition-colors"
@@ -115,6 +125,14 @@ export default function RecommendedCrews({
           </li>
         ))}
       </ul>
+      {variant === "crew" && (
+        <ListPagination
+          page={page}
+          totalPages={totalPages}
+          label="추천 크루 페이지"
+          onPageChange={changePage}
+        />
+      )}
     </section>
   );
 }
