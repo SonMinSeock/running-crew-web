@@ -7,6 +7,7 @@ interface RecommendedCrew {
   name: string;
   memberCount: number;
   distanceKm: number;
+  region: string;
   difficulty: "초급" | "중급" | "고급";
 }
 
@@ -17,6 +18,7 @@ const RECOMMENDED_CREWS: RecommendedCrew[] = [
     name: "강남 러닝클럽",
     memberCount: 45,
     distanceKm: 5,
+    region: "강남",
     difficulty: "초급",
   },
   {
@@ -25,6 +27,7 @@ const RECOMMENDED_CREWS: RecommendedCrew[] = [
     name: "마라톤 준비반",
     memberCount: 28,
     distanceKm: 10,
+    region: "잠실",
     difficulty: "중급",
   },
   {
@@ -33,24 +36,37 @@ const RECOMMENDED_CREWS: RecommendedCrew[] = [
     name: "야간 러닝 크루",
     memberCount: 36,
     distanceKm: 7,
+    region: "한강",
     difficulty: "고급",
   },
 ];
 
-export default function RecommendedCrews() {
+interface RecommendedCrewsProps {
+  variant?: "home" | "crew";
+}
+
+export default function RecommendedCrews({
+  variant = "home",
+}: RecommendedCrewsProps) {
   return (
     <section aria-labelledby="recommended-crews-title" className="mt-8">
       <div className="flex items-center justify-between gap-3">
         <h2 id="recommended-crews-title" className="text-lg font-bold">
           추천 크루
         </h2>
-        <Button
-          type="button"
-          variant="link"
-          className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-        >
-          전체 보기
-        </Button>
+        {variant === "crew" ? (
+          <span className="text-app-subtext text-sm">
+            {RECOMMENDED_CREWS.length}개
+          </span>
+        ) : (
+          <Button
+            type="button"
+            variant="link"
+            className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
+          >
+            전체 보기
+          </Button>
+        )}
       </div>
       <ul className="mt-4 space-y-3">
         {RECOMMENDED_CREWS.map((crew) => (
@@ -68,6 +84,12 @@ export default function RecommendedCrews() {
               <h3 className="text-sm font-bold">{crew.name}</h3>
               <p className="text-app-subtext mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
                 <span>{crew.memberCount}명</span>
+                {variant === "crew" && (
+                  <>
+                    <span aria-hidden="true">·</span>
+                    <span>{crew.region}</span>
+                  </>
+                )}
                 <span aria-hidden="true">·</span>
                 <span>{crew.distanceKm}km</span>
                 <span aria-hidden="true">·</span>

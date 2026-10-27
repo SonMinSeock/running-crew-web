@@ -10,7 +10,10 @@ export default function MainLayout() {
   return (
     <>
       <header className="bg-app-bg fixed inset-x-0 top-0 z-50 flex h-22 items-center justify-between px-6">
-        <div>{showProfileButton && <ProfileButton />}</div>
+        <div>
+          {showProfileButton && <ProfileButton />}
+          {pathname === "/crews" && <h1 className="text-lg font-bold">크루</h1>}
+        </div>
         <ThemeModeButton />
       </header>
       <main className="min-h-dvh px-6 pt-24 pb-[calc(6rem+env(safe-area-inset-bottom))]">
