@@ -4,18 +4,19 @@ import AuthLayout from "./layouts/auth/AuthLayout";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
-import ThemeModeButton from "./components/common/ThemeModeButton";
+import MainLayout from "./layouts/main/MainLayout";
 
 function App() {
   return (
     <>
-      <ThemeModeButton />
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
         </Route>
-        <Route path="/" element={<HomePage />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
       </Routes>
     </>
   );
