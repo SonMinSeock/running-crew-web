@@ -1,4 +1,4 @@
-import RecommendedCrews from "@/components/common/RecommendedCrews";
+import RecommendedCrews from "@/components/crew/RecommendedCrews";
 import SearchInput from "@/components/common/SearchInput";
 import JoinedCrews from "@/components/crew/JoinedCrews";
 import { useEffect } from "react";

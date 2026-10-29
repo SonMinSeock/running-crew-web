@@ -1,6 +1,7 @@
-import { ChevronRight, Megaphone } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CREW_NOTICES } from "@/data/crewNotices";
+import { Megaphone } from "lucide-react";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
+import { CREW_NOTICES } from "@/data/crews";
+import { dateFormatter } from "@/lib/date";
 
 interface LatestCrewNoticeProps {
   crewId: number;
@@ -27,16 +28,9 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
           <Megaphone className="text-app-accent size-4" aria-hidden="true" />
           공지사항
         </h2>
-        <Button
-          type="button"
-          variant="link"
-          disabled
-          className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-          aria-label="공지사항 전체 보기, 준비 중"
-        >
+        <ViewMoreButton disabled aria-label="공지사항 전체 보기, 준비 중">
           전체 보기
-          <ChevronRight className="size-4" aria-hidden="true" />
-        </Button>
+        </ViewMoreButton>
       </div>
       {latestNotice ? (
         <>
@@ -51,11 +45,7 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
                 dateTime={latestNotice.createdAt}
                 className="text-app-subtext shrink-0 text-xs"
               >
-                {new Intl.DateTimeFormat("ko-KR", {
-                  timeZone: "Asia/Seoul",
-                  month: "long",
-                  day: "numeric",
-                }).format(new Date(latestNotice.createdAt))}
+                {dateFormatter.format(new Date(latestNotice.createdAt))}
               </time>
             </div>
             <p className="text-app-subtext mt-3 line-clamp-2 text-sm leading-relaxed break-words">

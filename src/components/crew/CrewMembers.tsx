@@ -1,6 +1,6 @@
-import { ChevronRight, UsersRound } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CREW_MEMBERS } from "@/data/crewMembers";
+import { UsersRound } from "lucide-react";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
+import { CREW_MEMBERS } from "@/data/crews";
 
 interface CrewMembersProps {
   crewId: number;
@@ -34,16 +34,9 @@ export default function CrewMembers({ crewId, memberCount }: CrewMembersProps) {
             <span className="sr-only">명</span>
           </span>
         </h2>
-        <Button
-          type="button"
-          variant="link"
-          disabled
-          className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-          aria-label="멤버 전체 보기, 준비 중"
-        >
+        <ViewMoreButton disabled aria-label="멤버 전체 보기, 준비 중">
           전체 보기
-          <ChevronRight className="size-4" aria-hidden="true" />
-        </Button>
+        </ViewMoreButton>
       </div>
       {members.length > 0 ? (
         <>

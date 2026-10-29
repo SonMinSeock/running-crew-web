@@ -1,24 +1,23 @@
 /**
  * 다음 러닝 일정 카드 컴포넌트
  */
-import { CalendarDays, ChevronRight, Clock3, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CalendarDays, Clock3, MapPin } from "lucide-react";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
 import RunParticipationButton from "@/components/common/RunParticipationButton";
-import { CREW_RUNS } from "@/data/crewRuns";
+import { CREW_RUNS } from "@/data/crews";
 import { cn } from "@/lib/utils";
+import { runDateFormatter, timeFormatter } from "@/lib/date";
+import { getUpcomingCrewRuns } from "@/lib/crew";
 
 interface NextCrewRunProps {
   crewId: number;
 }
 
 export default function NextCrewRun({ crewId }: NextCrewRunProps) {
-  // 해당 크루의 예정 일정 중 가장 가까운 일정 하나를 선택한다.
-  const now = Date.now();
-  const nextRun = CREW_RUNS.filter(
-    (run) => run.crewId === crewId && new Date(run.startsAt).getTime() > now,
-  ).sort(
-    (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
-  )[0];
+  // 예정된 일정 중 해당 크루의 가장 가까운 일정을 선택한다.
+  const nextRun = getUpcomingCrewRuns(CREW_RUNS, Date.now()).find(
+    (run) => run.crewId === crewId,
+  );
 
   return (
     <section
@@ -33,37 +32,20 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
           <CalendarDays className="text-app-accent size-4" aria-hidden="true" />
           다음 러닝 일정
         </h2>
-        <Button
-          type="button"
-          variant="link"
-          disabled
-          className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-          aria-label="러닝 일정 전체 보기, 준비 중"
-        >
+        <ViewMoreButton disabled aria-label="러닝 일정 전체 보기, 준비 중">
           전체 보기
-          <ChevronRight className="size-4" aria-hidden="true" />
-        </Button>
+        </ViewMoreButton>
       </div>
       {nextRun ? (
         <div className="bg-app-text/5 mt-4 rounded-2xl p-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
               <h3 className="text-lg font-bold">
-                {new Intl.DateTimeFormat("ko-KR", {
-                  timeZone: "Asia/Seoul",
-                  month: "long",
-                  day: "numeric",
-                  weekday: "short",
-                }).format(new Date(nextRun.startsAt))}
+                {runDateFormatter.format(new Date(nextRun.startsAt))}
               </h3>
               <p className="text-app-subtext mt-3 flex items-center gap-2 text-sm">
                 <Clock3 className="size-4 shrink-0" aria-hidden="true" />
-                {new Intl.DateTimeFormat("ko-KR", {
-                  timeZone: "Asia/Seoul",
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                }).format(new Date(nextRun.startsAt))}
+                {timeFormatter.format(new Date(nextRun.startsAt))}
               </p>
               <p className="text-app-subtext mt-2 flex items-start gap-2 text-sm">
                 <MapPin className="size-4 shrink-0" aria-hidden="true" />

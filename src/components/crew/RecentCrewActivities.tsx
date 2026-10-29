@@ -1,6 +1,6 @@
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CREW_ACTIVITIES } from "@/data/crewActivities";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
+import { CREW_ACTIVITIES } from "@/data/crews";
+import { dateFormatter } from "@/lib/date";
 
 interface RecentCrewActivitiesProps {
   crewId: number;
@@ -28,16 +28,9 @@ export default function RecentCrewActivities({
         <h2 id="crew-activities-title" className="text-base font-bold">
           최근 활동
         </h2>
-        <Button
-          type="button"
-          variant="link"
-          disabled
-          className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-          aria-label="최근 활동 더보기, 준비 중"
-        >
+        <ViewMoreButton disabled aria-label="최근 활동 더보기, 준비 중">
           더보기
-          <ChevronRight className="size-4" aria-hidden="true" />
-        </Button>
+        </ViewMoreButton>
       </div>
       {activities.length > 0 ? (
         <>
@@ -65,11 +58,7 @@ export default function RecentCrewActivities({
                   dateTime={activity.createdAt}
                   className="text-app-subtext shrink-0 text-xs"
                 >
-                  {new Intl.DateTimeFormat("ko-KR", {
-                    timeZone: "Asia/Seoul",
-                    month: "long",
-                    day: "numeric",
-                  }).format(new Date(activity.createdAt))}
+                  {dateFormatter.format(new Date(activity.createdAt))}
                 </time>
               </li>
             ))}

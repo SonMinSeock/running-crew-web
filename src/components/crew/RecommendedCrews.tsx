@@ -1,4 +1,4 @@
-import { ChevronRight } from "lucide-react";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -51,16 +51,9 @@ export default function RecommendedCrews({
             {RECOMMENDED_CREWS.length}개
           </span>
         ) : (
-          <Button
-            asChild
-            variant="link"
-            className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
-          >
-            <Link to="/crews#recommended-crews">
-              전체 보기
-              <ChevronRight className="size-4" aria-hidden="true" />
-            </Link>
-          </Button>
+          <ViewMoreButton to="/crews#recommended-crews">
+            전체 보기
+          </ViewMoreButton>
         )}
       </div>
       <ul className="mt-4 space-y-3">

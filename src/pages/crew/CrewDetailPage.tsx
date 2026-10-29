@@ -10,10 +10,10 @@ import CrewMembers from "@/components/crew/CrewMembers";
 export default function CrewDetailPage() {
   const { crewId } = useParams();
 
-  // URL의 ID에 해당하는 크루를 공통 데이터에서 찾느다.
+  // URL의 ID에 해당하는 크루를 공통 데이터에서 찾는다.
   const crew = CREWS.find((item) => String(item.id) === crewId);
 
-  // 잘못된 ID로 접속하면 상세 정보 대신 안내를 표시.
+  // 잘못된 ID로 접속하면 상세 정보 대신 안내를 표시한다.
   if (!crew) {
     return (
       <section className="py-12 text-center">
@@ -59,7 +59,7 @@ export default function CrewDetailPage() {
         <p className="text-app-subtext mt-4 text-sm leading-relaxed">
           {crew.description}
         </p>
-        {/*지금 작업에선 가입 상태를 표시하고 변경하지 않는다.*/}
+        {/* 가입 상태만 표시하고 상태 변경은 후속 작업에서 연결한다. */}
         <div className="mt-4">
           {crew.isJoined ? (
             <span className="bg-app-accent/10 text-app-accent inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold">
