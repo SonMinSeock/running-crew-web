@@ -1,5 +1,5 @@
 import MyCrews from "@/components/home/MyCrews";
-import RecommendedCrews from "@/components/common/RecommendedCrews";
+import RecommendedCrews from "@/components/crew/RecommendedCrews";
 import TodayRunCard from "@/components/home/TodayRunCard";
 
 export default function HomePage() {

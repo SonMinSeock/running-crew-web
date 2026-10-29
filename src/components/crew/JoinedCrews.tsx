@@ -2,8 +2,9 @@ import { CalendarDays, ChevronRight, MapPin, UsersRound } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ListPagination from "@/components/common/ListPagination";
-import { CREWS } from "@/data/crews";
-import { CREW_RUNS } from "@/data/crewRuns";
+import { CREWS, CREW_RUNS } from "@/data/crews";
+import { runDateTimeFormatter } from "@/lib/date";
+import { getUpcomingCrewRuns } from "@/lib/crew";
 
 const JOINED_CREWS = CREWS.filter((crew) => crew.isJoined);
 
@@ -17,14 +18,8 @@ export default function JoinedCrews() {
   const startIndex = (page - 1) * PAGE_SIZE;
   const visibleCrews = JOINED_CREWS.slice(startIndex, startIndex + PAGE_SIZE);
 
-  // 예정된 일정만 시간순으로 정렬합니다.
-  // filter가 새 배열을 반환하므로 원본 데이터는 변경되지 않는다.
-  const now = Date.now();
-  const upcomingRuns = CREW_RUNS.filter(
-    (run) => new Date(run.startsAt).getTime() > now,
-  ).sort(
-    (a, b) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime(),
-  );
+  // 예정된 일정을 가까운 순서로 가져온다.
+  const upcomingRuns = getUpcomingCrewRuns(CREW_RUNS, Date.now());
 
   const changePage = (nextPage: number) => {
     setPage(nextPage);
@@ -54,19 +49,11 @@ export default function JoinedCrews() {
 
       <ul className="mt-4 space-y-3">
         {visibleCrews.map((crew) => {
-          // 시간순으로 정렬된 일정에서 해당 크루의 첫 일정을 선택.
+          // 시간순으로 정렬된 일정에서 해당 크루의 첫 일정을 선택한다.
           const nextRun = upcomingRuns.find((run) => run.crewId === crew.id);
 
           const nextRunLabel = nextRun
-            ? new Intl.DateTimeFormat("ko-KR", {
-                timeZone: "Asia/Seoul",
-                month: "long",
-                day: "numeric",
-                weekday: "short",
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              }).format(new Date(nextRun.startsAt))
+            ? runDateTimeFormatter.format(new Date(nextRun.startsAt))
             : "예정된 러닝이 없습니다.";
 
           return (
