@@ -6,6 +6,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import MainLayout from "./layouts/main/MainLayout";
 import CrewPage from "./pages/crew/CrewPage";
+import CrewDetailPage from "./pages/crew/CrewDetailPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/crews" element={<CrewPage />} />
+          <Route path="/crews/:crewId" element={<CrewDetailPage />} />
         </Route>
       </Routes>
     </>

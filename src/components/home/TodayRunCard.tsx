@@ -1,6 +1,6 @@
 // 오늘의 러닝 일정 카드
 import { CalendarDays, UsersRound } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import RunParticipationButton from "@/components/common/RunParticipationButton";
 
 export default function TodayRunCard() {
   return (
@@ -43,12 +43,9 @@ export default function TodayRunCard() {
           참여 예정
           <span className="text-app-accent font-bold">14명</span>
         </p>
-        <Button
-          type="button"
-          className="bg-app-accent text-app-bg hover:bg-app-accent/90 mt-5 h-12 w-full cursor-pointer rounded-2xl text-base font-bold"
-        >
+        <RunParticipationButton className="mt-5">
           참여 확인
-        </Button>
+        </RunParticipationButton>
       </article>
     </section>
   );

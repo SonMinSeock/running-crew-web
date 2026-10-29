@@ -1,33 +1,9 @@
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { CREWS } from "@/data/crews";
 
-interface Crew {
-  id: number;
-  emoji: string;
-  name: string;
-  memberCount: number;
-}
-
-const MY_CREWS: Crew[] = [
-  {
-    id: 1,
-    emoji: "🌙",
-    name: "새벽 러너스",
-    memberCount: 24,
-  },
-  {
-    id: 2,
-    emoji: "🌊",
-    name: "한강 크루",
-    memberCount: 18,
-  },
-  {
-    id: 3,
-    emoji: "⛰️",
-    name: "주말 러닝",
-    memberCount: 32,
-  },
-];
+const MY_CREWS = CREWS.filter((crew) => crew.isJoined);
 
 export default function MyCrews() {
   return (
@@ -41,25 +17,31 @@ export default function MyCrews() {
           variant="link"
           className="text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold"
         >
-          <Link to="/crews#joined-crews">전체 보기</Link>
+          <Link to="/crews#joined-crews">
+            전체 보기
+            <ChevronRight className="size-4" aria-hidden="true" />
+          </Link>
         </Button>
       </div>
       <ul className="mt-4 flex gap-3 overflow-x-auto pb-2 md:grid md:grid-cols-3">
         {MY_CREWS.slice(0, 3).map((crew) => (
-          <li
-            key={crew.id}
-            className="bg-app-card border-app-border hover:border-app-accent flex w-28 shrink-0 cursor-pointer flex-col items-center rounded-2xl border px-3 py-4 text-center transition-colors md:w-auto"
-          >
-            <div
-              className="bg-app-text/5 flex size-12 items-center justify-center rounded-full text-2xl"
-              aria-hidden="true"
+          <li key={crew.id} className="w-28 shrink-0 md:w-auto">
+            <Link
+              to={`/crews/${crew.id}`}
+              className="bg-app-card border-app-border hover:border-app-accent focus-visible:ring-app-accent flex h-full flex-col items-center rounded-2xl border px-3 py-4 text-center transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-inset"
             >
-              {crew.emoji}
-            </div>
-            <h3 className="mt-3 text-sm font-bold">{crew.name}</h3>
-            <p className="text-app-subtext mt-1 text-xs">
-              {crew.memberCount}명
-            </p>
+              <div
+                className="bg-app-text/5 flex size-12 items-center justify-center rounded-full text-2xl"
+                aria-hidden="true"
+              >
+                {crew.emoji}
+              </div>
+
+              <h3 className="mt-3 text-sm font-bold">{crew.name}</h3>
+              <p className="text-app-subtext mt-1 text-xs">
+                {crew.memberCount}명
+              </p>
+            </Link>
           </li>
         ))}
       </ul>
