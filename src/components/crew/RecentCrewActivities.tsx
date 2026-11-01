@@ -15,7 +15,8 @@ export default function RecentCrewActivities({
   )
     .sort(
       (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() ||
+        a.id - b.id,
     )
     .slice(0, 3);
 
@@ -28,7 +29,10 @@ export default function RecentCrewActivities({
         <h2 id="crew-activities-title" className="text-base font-bold">
           최근 활동
         </h2>
-        <ViewMoreButton disabled aria-label="최근 활동 더보기, 준비 중">
+        <ViewMoreButton
+          to={`/crews/${crewId}/activities`}
+          aria-label="최근 활동 더보기"
+        >
           더보기
         </ViewMoreButton>
       </div>
@@ -63,9 +67,6 @@ export default function RecentCrewActivities({
               </li>
             ))}
           </ul>
-          <p className="text-app-subtext mt-2 text-xs">
-            활동 더보기 기능은 준비 중입니다.
-          </p>
         </>
       ) : (
         <p className="text-app-subtext py-8 text-center text-sm">

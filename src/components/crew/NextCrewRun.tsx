@@ -32,7 +32,10 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
           <CalendarDays className="text-app-accent size-4" aria-hidden="true" />
           다음 러닝 일정
         </h2>
-        <ViewMoreButton disabled aria-label="러닝 일정 전체 보기, 준비 중">
+        <ViewMoreButton
+          to={`/crews/${crewId}/runs`}
+          aria-label="러닝 일정 전체 보기"
+        >
           전체 보기
         </ViewMoreButton>
       </div>
@@ -87,7 +90,7 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
             id="run-action-description"
             className="text-app-subtext mt-2 text-xs"
           >
-            참여 신청 및 일정 전체 보기 기능은 준비 중입니다.
+            참여 신청 기능은 준비 중입니다.
           </p>
         </div>
       ) : (

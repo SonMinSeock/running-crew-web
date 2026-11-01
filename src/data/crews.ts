@@ -47,7 +47,8 @@ export interface CrewMember {
   distanceKm: number;
 }
 
-export const CREWS: Crew[] = [
+// 기존 크루 정보와 더미 데이터 생성에 사용할 목표 인원수를 정의한다.
+const CREW_SEEDS: Crew[] = [
   {
     id: 1,
     emoji: "🌙",
@@ -210,6 +211,42 @@ export const CREW_RUNS: CrewRun[] = [
     difficulty: "중급",
     participantCount: 10,
   },
+  {
+    id: 4,
+    crewId: 1,
+    startsAt: "2026-11-19T06:00:00+09:00",
+    location: "여의도 한강공원",
+    distanceKm: 5,
+    difficulty: "초급",
+    participantCount: 6,
+  },
+  {
+    id: 5,
+    crewId: 1,
+    startsAt: "2026-11-26T06:00:00+09:00",
+    location: "여의도 한강공원",
+    distanceKm: 7,
+    difficulty: "중급",
+    participantCount: 4,
+  },
+  {
+    id: 6,
+    crewId: 1,
+    startsAt: "2026-10-29T06:00:00+09:00",
+    location: "여의도 한강공원",
+    distanceKm: 5,
+    difficulty: "초급",
+    participantCount: 16,
+  },
+  {
+    id: 7,
+    crewId: 1,
+    startsAt: "2026-10-22T06:00:00+09:00",
+    location: "여의도 한강공원",
+    distanceKm: 7,
+    difficulty: "중급",
+    participantCount: 12,
+  },
 ];
 
 export const CREW_NOTICES: CrewNotice[] = [
@@ -236,6 +273,38 @@ export const CREW_NOTICES: CrewNotice[] = [
     createdAt: "2026-10-28T19:00:00+09:00",
     content:
       "이번 러닝은 반포 한강공원에서 시작합니다. 출발 10분 전까지 모여 함께 준비운동을 진행해주세요.",
+  },
+  {
+    id: 4,
+    crewId: 1,
+    title: "러닝 전 준비운동 안내",
+    createdAt: "2026-10-24T18:00:00+09:00",
+    content:
+      "출발 전 발목과 무릎을 충분히 풀어주세요. 집결 장소에서 함께 준비운동을 진행한 뒤 달리기를 시작합니다.",
+  },
+  {
+    id: 5,
+    crewId: 1,
+    title: "개인 물과 안전용품 준비 안내",
+    createdAt: "2026-10-23T18:00:00+09:00",
+    content:
+      "개인 물과 땀을 닦을 수건을 준비해주세요. 새벽에는 주변이 어두우니 밝은 옷이나 반사 용품을 착용해주세요.",
+  },
+  {
+    id: 6,
+    crewId: 1,
+    title: "함께 달릴 때 지켜주세요",
+    createdAt: "2026-10-23T18:00:00+09:00",
+    content:
+      "보행자와 다른 러너가 안전하게 지나갈 수 있도록 길을 비워주세요. 앞사람과 충분한 간격을 유지하고 방향을 바꿀 때는 주변을 확인해주세요.",
+  },
+  {
+    id: 7,
+    crewId: 1,
+    title: "10월 러닝을 함께해주셔서 감사합니다",
+    createdAt: "2026-10-20T18:00:00+09:00",
+    content:
+      "이번 달에도 각자의 속도로 함께 달려주셔서 감사합니다.\n\n기록보다 안전과 꾸준함을 먼저 생각하며 다음 러닝에서도 즐겁게 만나요.",
   },
 ];
 
@@ -280,11 +349,27 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     distanceKm: 7,
     createdAt: "2026-10-29T07:00:00+09:00",
   },
+  {
+    id: 6,
+    crewId: 1,
+    emoji: "👟",
+    nickname: "정조깅",
+    distanceKm: 3.5,
+    createdAt: "2026-10-26T07:00:00+09:00",
+  },
+  {
+    id: 7,
+    crewId: 1,
+    emoji: "🍀",
+    nickname: "윤러닝",
+    distanceKm: 4.2,
+    createdAt: "2026-10-26T07:00:00+09:00",
+  },
 ];
 
-// distanceKm는 해당 크루 가입 후 누적 거리다.
-// 미리보기용 데이터이며 전체 인원은 CREWS의 memberCount를 사용한다.
-export const CREW_MEMBERS: CrewMember[] = [
+// 기존 멤버의 ID와 정보를 보존한다.
+// distanceKm는 해당 크루 가입 후 누적 거리를 나타낸다.
+const EXISTING_CREW_MEMBERS: CrewMember[] = [
   {
     id: 1,
     crewId: 1,
@@ -349,3 +434,40 @@ export const CREW_MEMBERS: CrewMember[] = [
     distanceKm: 210,
   },
 ];
+
+// 기존 멤버를 유지하고 크루별 목표 인원수만큼 더미 멤버를 보강한다.
+export const CREW_MEMBERS: CrewMember[] = CREW_SEEDS.flatMap((crew) => {
+  const existingMembers = EXISTING_CREW_MEMBERS.filter(
+    (member) => member.crewId === crew.id,
+  );
+  const remainingCount = Math.max(0, crew.memberCount - existingMembers.length);
+
+  const additionalMembers = Array.from(
+    { length: remainingCount },
+    (_, index): CrewMember => {
+      const memberNumber = existingMembers.length + index + 1;
+      const isLeader = existingMembers.length === 0 && index === 0;
+
+      return {
+        // 기존 ID와 겹치지 않도록 크루별로 100개의 ID 구간을 사용한다.
+        id: 1000 + crew.id * 100 + index,
+        crewId: crew.id,
+        emoji: crew.emoji,
+        nickname: `${crew.name} 러너 ${memberNumber}`,
+        isLeader,
+        // 한국 시간 오전 9시로 고정하고 월 경계를 자동으로 처리한다.
+        joinedAt: new Date(Date.UTC(2026, 9, 2 + index, 0, 0, 0)).toISOString(),
+        distanceKm: Math.max(0, Math.round((remainingCount - index) * 2.5)),
+      };
+    },
+  );
+
+  return [...existingMembers, ...additionalMembers];
+});
+
+// 화면에 표시하는 인원수는 실제 전체 멤버 데이터에서 산출한다.
+export const CREWS: Crew[] = CREW_SEEDS.map((crew) => ({
+  ...crew,
+  memberCount: CREW_MEMBERS.filter((member) => member.crewId === crew.id)
+    .length,
+}));

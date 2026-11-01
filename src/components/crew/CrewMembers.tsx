@@ -8,12 +8,13 @@ interface CrewMembersProps {
 }
 
 export default function CrewMembers({ crewId, memberCount }: CrewMembersProps) {
-  // 크루장을 먼저 배치하고 같은 역할의 멤버는 가입순으로 정렬한다.
+  // 크루장을 먼저 표시하고 가입일과 ID 오름차순으로 정렬한다.
   const members = CREW_MEMBERS.filter((member) => member.crewId === crewId)
     .sort(
       (a, b) =>
         Number(b.isLeader) - Number(a.isLeader) ||
-        new Date(a.joinedAt).getTime() - new Date(b.joinedAt).getTime(),
+        new Date(a.joinedAt).getTime() - new Date(b.joinedAt).getTime() ||
+        a.id - b.id,
     )
     .slice(0, 5);
 
@@ -34,10 +35,14 @@ export default function CrewMembers({ crewId, memberCount }: CrewMembersProps) {
             <span className="sr-only">명</span>
           </span>
         </h2>
-        <ViewMoreButton disabled aria-label="멤버 전체 보기, 준비 중">
+        <ViewMoreButton
+          to={`/crews/${crewId}/members`}
+          aria-label="멤버 전체 보기"
+        >
           전체 보기
         </ViewMoreButton>
       </div>
+
       {members.length > 0 ? (
         <>
           <ul className="mt-4 space-y-4">
@@ -67,14 +72,12 @@ export default function CrewMembers({ crewId, memberCount }: CrewMembersProps) {
             ))}
           </ul>
           <p className="text-app-subtext mt-4 text-xs">
-            크루 가입 후 누적 거리 기준입니다. 멤버 전체 보기는 준비 중입니다.
+            크루 가입 후 누적 거리 기준입니다.
           </p>
         </>
       ) : (
         <p className="text-app-subtext py-8 text-center text-sm">
-          {memberCount === 0
-            ? "멤버가 없습니다."
-            : "멤버 미리보기 데이터가 준비되지 않았습니다."}
+          멤버가 없습니다.
         </p>
       )}
     </section>

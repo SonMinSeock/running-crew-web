@@ -12,7 +12,9 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
   const latestNotice = CREW_NOTICES.filter(
     (notice) => notice.crewId === crewId,
   ).sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    (a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() ||
+      a.id - b.id,
   )[0];
 
   return (
@@ -28,7 +30,10 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
           <Megaphone className="text-app-accent size-4" aria-hidden="true" />
           공지사항
         </h2>
-        <ViewMoreButton disabled aria-label="공지사항 전체 보기, 준비 중">
+        <ViewMoreButton
+          to={`/crews/${crewId}/notices`}
+          aria-label="공지사항 전체 보기"
+        >
           전체 보기
         </ViewMoreButton>
       </div>
@@ -52,9 +57,6 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
               {latestNotice.content}
             </p>
           </article>
-          <p className="text-app-subtext mt-2 text-xs">
-            공지 상세 및 전체 보기 기능은 준비 중입니다.
-          </p>
         </>
       ) : (
         <p className="text-app-subtext py-8 text-center text-sm">
