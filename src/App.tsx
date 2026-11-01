@@ -7,6 +7,10 @@ import SignupPage from "./pages/auth/SignupPage";
 import MainLayout from "./layouts/main/MainLayout";
 import CrewPage from "./pages/crew/CrewPage";
 import CrewDetailPage from "./pages/crew/CrewDetailPage";
+import CrewRunsPage from "./pages/crew/CrewRunsPage";
+import CrewNoticesPage from "./pages/crew/CrewNoticesPage";
+import CrewActivitiesPage from "./pages/crew/CrewActivitiesPage";
+import CrewMembersPage from "./pages/crew/CrewMembersPage";
 
 function App() {
   return (
@@ -20,6 +24,13 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/crews" element={<CrewPage />} />
           <Route path="/crews/:crewId" element={<CrewDetailPage />} />
+          <Route path="/crews/:crewId/runs" element={<CrewRunsPage />} />
+          <Route path="/crews/:crewId/notices" element={<CrewNoticesPage />} />
+          <Route
+            path="/crews/:crewId/activities"
+            element={<CrewActivitiesPage />}
+          />
+          <Route path="/crews/:crewId/members" element={<CrewMembersPage />} />
         </Route>
       </Routes>
     </>
