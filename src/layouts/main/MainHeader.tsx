@@ -85,6 +85,9 @@ export default function MainHeader() {
         <>
           <div>
             {showProfileButton && <ProfileButton />}
+            {pathname === "/running" && (
+              <p className="text-lg font-bold">러닝</p>
+            )}
             {pathname === "/crews" && (
               <h1 className="text-lg font-bold">크루</h1>
             )}

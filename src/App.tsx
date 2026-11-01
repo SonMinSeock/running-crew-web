@@ -12,6 +12,8 @@ import CrewNoticesPage from "./pages/crew/CrewNoticesPage";
 import CrewActivitiesPage from "./pages/crew/CrewActivitiesPage";
 import CrewMembersPage from "./pages/crew/CrewMembersPage";
 
+import RunningPage from "./pages/running/RunningPage";
+
 function App() {
   return (
     <>
@@ -22,6 +24,7 @@ function App() {
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/running" element={<RunningPage />} />
           <Route path="/crews" element={<CrewPage />} />
           <Route path="/crews/:crewId" element={<CrewDetailPage />} />
           <Route path="/crews/:crewId/runs" element={<CrewRunsPage />} />
