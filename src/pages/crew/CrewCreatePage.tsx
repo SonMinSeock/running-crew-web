@@ -2,7 +2,7 @@
  * 크루 만들기 화면의 제목과 기본 정보 입력 폼을 배치한다.
  */
 import { useEffect } from "react";
-import CrewCreateForm from "@/components/crew/CrewCreateForm";
+import CrewForm from "@/components/crew/CrewForm";
 
 export default function CrewCreatePage() {
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function CrewCreatePage() {
       <h1 id="crew-create-title" className="sr-only">
         크루 만들기
       </h1>
-      <CrewCreateForm />
+      <CrewForm mode="create" />
     </section>
   );
 }

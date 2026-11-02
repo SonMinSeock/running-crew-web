@@ -509,3 +509,6 @@ export const CREWS: Crew[] = CREW_SEEDS.map((crew) => ({
   memberCount: CREW_MEMBERS.filter((member) => member.crewId === crew.id)
     .length,
 }));
+
+// 실제 소유권 검사와 별개로 크루 편집 UI를 확인할 샘플 ID를 정의한다.
+export const OWNED_CREW_SAMPLE_ID = 1;
