@@ -1,3 +1,6 @@
+/**
+ * 크루 기본 정보와 일정·공지·활동·멤버 미리보기를 구성한다.
+ */
 import { UsersRound } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";

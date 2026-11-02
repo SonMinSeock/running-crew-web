@@ -1,3 +1,6 @@
+/**
+ * 댓글과 대댓글의 입력 및 등록·취소 UI를 제공한다.
+ */
 import { useEffect, useId, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";

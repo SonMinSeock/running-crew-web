@@ -1,3 +1,6 @@
+/**
+ * 크루 멤버 미리보기와 전체 목록 이동 링크를 표시한다.
+ */
 import { UsersRound } from "lucide-react";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { CREW_MEMBERS } from "@/data/crews";

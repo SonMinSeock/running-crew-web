@@ -1,3 +1,6 @@
+/**
+ * 가입한 크루와 추천 크루 목록 화면을 구성한다.
+ */
 import RecommendedCrews from "@/components/crew/RecommendedCrews";
 import SearchInput from "@/components/common/SearchInput";
 import JoinedCrews from "@/components/crew/JoinedCrews";

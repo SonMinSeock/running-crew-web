@@ -1,3 +1,6 @@
+/**
+ * 로그인 안내와 입력 폼을 배치한다.
+ */
 import LoginForm from "@/components/auth/login/LoginForm";
 import AuthHeader from "@/components/auth/common/AuthHeader";
 import AuthFooter from "@/components/auth/common/AuthFooter";

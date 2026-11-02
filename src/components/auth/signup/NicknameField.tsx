@@ -1,3 +1,6 @@
+/**
+ * 회원가입 닉네임 입력과 관련 안내를 표시한다.
+ */
 import { useState } from "react";
 import { AtSign, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";

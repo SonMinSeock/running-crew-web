@@ -1,3 +1,6 @@
+/**
+ * 로그인과 회원가입 화면 사이의 이동 안내를 표시한다.
+ */
 import { Link } from "react-router-dom";
 
 interface AuthFooterProps {

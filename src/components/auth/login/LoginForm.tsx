@@ -1,3 +1,6 @@
+/**
+ * 로그인 정보 입력과 로그인 버튼을 표시한다.
+ */
 import { LockKeyhole, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AuthInputField from "@/components/auth/common/AuthInputField";

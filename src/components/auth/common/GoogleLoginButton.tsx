@@ -1,3 +1,6 @@
+/**
+ * 인증 화면에서 사용하는 Google 로그인 버튼을 표시한다.
+ */
 import { Button } from "@/components/ui/button";
 
 export default function GoogleLoginButton() {

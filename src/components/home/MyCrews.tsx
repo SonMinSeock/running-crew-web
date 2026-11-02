@@ -1,3 +1,6 @@
+/**
+ * 홈에 가입한 크루 미리보기와 전체 보기 링크를 표시한다.
+ */
 import { Link } from "react-router-dom";
 import { CREWS } from "@/data/crews";
 import ViewMoreButton from "@/components/common/ViewMoreButton";

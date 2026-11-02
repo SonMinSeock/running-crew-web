@@ -1,3 +1,6 @@
+/**
+ * 크루의 최근 러닝 활동을 정렬하고 페이지별로 표시한다.
+ */
 import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import ListPagination from "@/components/common/ListPagination";

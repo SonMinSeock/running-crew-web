@@ -1,3 +1,6 @@
+/**
+ * 크루의 최신 공지 미리보기와 전체 공지 이동 링크를 표시한다.
+ */
 import { Megaphone } from "lucide-react";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { CREW_NOTICES } from "@/data/crews";

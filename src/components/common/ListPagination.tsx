@@ -1,3 +1,6 @@
+/**
+ * 목록의 현재 페이지와 이전·다음 페이지 이동 버튼을 표시한다.
+ */
 import { Button } from "@/components/ui/button";
 
 interface ListPaginationProps {

@@ -1,5 +1,5 @@
 /**
- * 다음 러닝 일정 카드 컴포넌트
+ * 크루의 가장 가까운 예정 일정과 전체 일정 이동 링크를 표시한다.
  */
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
 import ViewMoreButton from "@/components/common/ViewMoreButton";

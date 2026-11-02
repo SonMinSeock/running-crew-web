@@ -1,3 +1,6 @@
+/**
+ * 활동별 댓글과 대댓글을 표시하고 브라우저 저장소에 보관한다.
+ */
 import { useRef, useState } from "react";
 import { MessageCircle, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";

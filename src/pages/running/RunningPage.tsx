@@ -1,3 +1,6 @@
+/**
+ * 가입한 크루의 러닝 일정을 구분·필터링하고 페이지별로 표시한다.
+ */
 import { useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Clock3, MapPin } from "lucide-react";

@@ -1,3 +1,6 @@
+/**
+ * 크루의 최근 활동 미리보기와 더보기 링크를 표시한다.
+ */
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { CREW_ACTIVITIES } from "@/data/crews";
 import { dateFormatter } from "@/lib/date";

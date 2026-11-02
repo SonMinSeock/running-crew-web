@@ -1,3 +1,6 @@
+/**
+ * 회원가입에 필요한 입력 항목과 제출 버튼을 구성한다.
+ */
 import { Button } from "@/components/ui/button";
 import { LockKeyhole, Mail, UserRound } from "lucide-react";
 import AuthInputField from "@/components/auth/common/AuthInputField";

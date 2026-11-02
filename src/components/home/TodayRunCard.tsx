@@ -1,4 +1,6 @@
-// 오늘의 러닝 일정 카드
+/**
+ * 홈에 오늘의 러닝 샘플 정보와 참여 확인 버튼을 표시한다.
+ */
 import { CalendarDays, UsersRound } from "lucide-react";
 import RunParticipationButton from "@/components/common/RunParticipationButton";
 

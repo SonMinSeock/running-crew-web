@@ -1,3 +1,6 @@
+/**
+ * 러닝 참여 관련 화면에서 사용하는 공통 버튼 스타일을 제공한다.
+ */
 import type { ComponentProps, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
