@@ -30,7 +30,7 @@ export default function ViewMoreButton({
   );
 
   const buttonClassName = cn(
-    "text-app-accent h-auto cursor-pointer p-0 text-sm font-semibold",
+    "text-app-accent h-auto cursor-pointer rounded-none bg-transparent p-0 text-sm font-semibold hover:bg-transparent hover:text-app-accent hover:underline",
     className,
   );
 

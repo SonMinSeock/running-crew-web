@@ -11,6 +11,9 @@ export interface Crew {
 }
 
 export interface CrewRun {
+  title: string;
+  description: string;
+  meetingGuide: string;
   id: number;
   crewId: number;
   startsAt: string;
@@ -186,6 +189,11 @@ const CREW_SEEDS: Crew[] = [
 export const CREW_RUNS: CrewRun[] = [
   {
     id: 1,
+    title: "여의도 새벽 5km 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-11-05T06:00:00+09:00",
     location: "여의도 한강공원",
@@ -195,6 +203,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 2,
+    title: "여의도 새벽 7km 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-11-12T06:00:00+09:00",
     location: "여의도 한강공원",
@@ -204,6 +217,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 3,
+    title: "반포 주말 7km 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 2,
     startsAt: "2026-11-07T08:00:00+09:00",
     location: "반포 한강공원",
@@ -213,6 +231,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 4,
+    title: "여의도 함께 달리는 새벽 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-11-19T06:00:00+09:00",
     location: "여의도 한강공원",
@@ -222,6 +245,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 5,
+    title: "11월 마지막 목요일 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-11-26T06:00:00+09:00",
     location: "여의도 한강공원",
@@ -231,6 +259,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 6,
+    title: "10월 여의도 새벽 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-10-29T06:00:00+09:00",
     location: "여의도 한강공원",
@@ -240,6 +273,11 @@ export const CREW_RUNS: CrewRun[] = [
   },
   {
     id: 7,
+    title: "여의도 7km 정기 러닝",
+    description:
+      "각자의 속도를 존중하며 함께 달리는 러닝입니다.\n개인 물과 편한 러닝화를 준비해주세요.",
+    meetingGuide:
+      "출발 10분 전까지 집결 장소에 모여주세요. 준비운동 후 함께 출발합니다.",
     crewId: 1,
     startsAt: "2026-10-22T06:00:00+09:00",
     location: "여의도 한강공원",

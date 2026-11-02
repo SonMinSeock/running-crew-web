@@ -292,10 +292,10 @@ export default function RunningPage() {
                         </p>
                         <div className="border-app-border mt-4 border-t pt-4">
                           <ViewMoreButton
-                            to={`/crews/${crew.id}/runs`}
-                            aria-label={`${crew.name} 크루 일정 보기`}
+                            to={`/crews/${crew.id}/runs/${run.id}`}
+                            aria-label={`${crew.name} 일정 상세 보기`}
                           >
-                            크루 일정 보기
+                            일정 상세 보기
                           </ViewMoreButton>
                         </div>
                       </article>
