@@ -1,3 +1,6 @@
+/**
+ * 공통 입력창의 스타일과 기본 입력 속성을 제공한다.
+ */
 import * as React from "react"
 import { cn } from "cn"
 

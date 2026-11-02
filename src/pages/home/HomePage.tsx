@@ -1,3 +1,6 @@
+/**
+ * 러닝 일정과 가입한 크루·추천 크루로 홈 화면을 구성한다.
+ */
 import MyCrews from "@/components/home/MyCrews";
 import RecommendedCrews from "@/components/crew/RecommendedCrews";
 import TodayRunCard from "@/components/home/TodayRunCard";

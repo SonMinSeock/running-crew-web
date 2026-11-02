@@ -1,3 +1,6 @@
+/**
+ * 전체 보기와 더보기에 사용하는 화살표 버튼 또는 링크를 표시한다.
+ */
 import type { ComponentProps, ReactNode } from "react";
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";

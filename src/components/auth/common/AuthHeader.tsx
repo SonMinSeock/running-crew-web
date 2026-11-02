@@ -1,3 +1,6 @@
+/**
+ * 인증 화면의 제목과 설명을 표시한다.
+ */
 import { Activity } from "lucide-react";
 
 interface AuthHeaderProps {

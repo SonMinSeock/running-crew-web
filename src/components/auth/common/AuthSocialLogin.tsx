@@ -1,3 +1,6 @@
+/**
+ * 인증 화면의 소셜 로그인 영역을 구성한다.
+ */
 import GoogleLoginButton from "@/components/auth/common/GoogleLoginButton";
 
 export default function AuthSocialLogin() {

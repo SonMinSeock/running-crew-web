@@ -1,3 +1,6 @@
+/**
+ * 접근 가능한 라벨과 검색 아이콘을 갖춘 검색 입력창을 표시한다.
+ */
 import type { ComponentProps } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";

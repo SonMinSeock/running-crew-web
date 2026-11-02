@@ -15,6 +15,9 @@ import CrewMembersPage from "./pages/crew/CrewMembersPage";
 import RunningPage from "./pages/running/RunningPage";
 import FeedPage from "./pages/feed/FeedPage";
 
+import ProfilePage from "./pages/profile/ProfilePage";
+import ProfileEditPage from "./pages/profile/ProfileEditPage";
+
 function App() {
   return (
     <>
@@ -27,6 +30,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/running" element={<RunningPage />} />
           <Route path="/feed" element={<FeedPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/crews" element={<CrewPage />} />
           <Route path="/crews/:crewId" element={<CrewDetailPage />} />
           <Route path="/crews/:crewId/runs" element={<CrewRunsPage />} />

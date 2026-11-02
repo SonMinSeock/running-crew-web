@@ -1,3 +1,6 @@
+/**
+ * 가입한 크루와 다음 러닝 정보를 페이지별로 표시한다.
+ */
 import { CalendarDays, ChevronRight, MapPin, UsersRound } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";

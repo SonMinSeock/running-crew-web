@@ -1,3 +1,6 @@
+/**
+ * 가입한 크루를 선택하는 피드 필터를 표시한다.
+ */
 import {
   Select,
   SelectContent,

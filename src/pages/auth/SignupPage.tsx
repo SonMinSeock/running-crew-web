@@ -1,3 +1,6 @@
+/**
+ * 회원가입 안내와 입력 폼을 배치한다.
+ */
 import AuthHeader from "@/components/auth/common/AuthHeader";
 import SignupForm from "@/components/auth/signup/SignupForm";
 import AuthFooter from "@/components/auth/common/AuthFooter";

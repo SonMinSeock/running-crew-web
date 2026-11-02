@@ -1,3 +1,6 @@
+/**
+ * Radix 기반 선택 목록의 트리거·항목·팝업 UI를 제공한다.
+ */
 import * as React from "react";
 import { cn } from "cn";
 import { Select as SelectPrimitive } from "radix-ui";

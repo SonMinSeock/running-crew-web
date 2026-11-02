@@ -1,3 +1,6 @@
+/**
+ * 크루의 예정·지난 러닝 일정을 정렬하고 페이지별로 표시한다.
+ */
 import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Clock3, MapPin } from "lucide-react";

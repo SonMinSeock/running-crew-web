@@ -1,3 +1,6 @@
+/**
+ * 가입한 크루의 러닝 활동을 필터링하고 페이지별 피드 화면을 구성한다.
+ */
 import { useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import ListPagination from "@/components/common/ListPagination";

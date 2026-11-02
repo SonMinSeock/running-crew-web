@@ -1,3 +1,6 @@
+/**
+ * 홈 또는 크루 화면에 추천 크루 목록을 표시한다.
+ */
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";

@@ -23,21 +23,24 @@ export default function MainHeader() {
     crewActivitiesMatch ??
     crewMembersMatch;
   const crewMatch = crewDetailMatch ?? crewListMatch;
-  const showBackButton = Boolean(crewMatch);
+  const isProfileEdit = pathname === "/profile/edit";
+  const showBackButton = Boolean(crewMatch) || isProfileEdit;
 
   const crew = CREWS.find(
     (item) => String(item.id) === crewMatch?.params.crewId,
   );
 
-  const headerTitle = crewRunsMatch
-    ? "러닝 일정"
-    : crewNoticesMatch
-      ? "공지사항"
-      : crewActivitiesMatch
-        ? "최근 활동"
-        : crewMembersMatch
-          ? "멤버"
-          : (crew?.name ?? "크루 상세");
+  const headerTitle = isProfileEdit
+    ? "프로필 편집"
+    : crewRunsMatch
+      ? "러닝 일정"
+      : crewNoticesMatch
+        ? "공지사항"
+        : crewActivitiesMatch
+          ? "최근 활동"
+          : crewMembersMatch
+            ? "멤버"
+            : (crew?.name ?? "크루 상세");
 
   const showProfileButton = pathname === "/";
 
@@ -50,9 +53,16 @@ export default function MainHeader() {
       return;
     }
 
-    navigate(crewListMatch && crew ? `/crews/${crew.id}` : "/crews", {
-      replace: true,
-    });
+    navigate(
+      isProfileEdit
+        ? "/profile"
+        : crewListMatch && crew
+          ? `/crews/${crew.id}`
+          : "/crews",
+      {
+        replace: true,
+      },
+    );
   };
 
   return (
@@ -85,6 +95,9 @@ export default function MainHeader() {
         <>
           <div>
             {showProfileButton && <ProfileButton />}
+            {pathname === "/profile" && (
+              <p className="text-lg font-bold">프로필</p>
+            )}
             {pathname === "/feed" && <p className="text-lg font-bold">피드</p>}
             {pathname === "/running" && (
               <p className="text-lg font-bold">러닝</p>

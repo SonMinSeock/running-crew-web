@@ -1,3 +1,6 @@
+/**
+ * 러닝 활동 정보와 크루 활동 링크, 댓글 영역을 표시한다.
+ */
 import FeedComments from "./FeedComments";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import type { Crew, CrewActivity } from "@/data/crews";

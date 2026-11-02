@@ -1,3 +1,6 @@
+/**
+ * 헤더에서 사용하는 테마 모드 아이콘 버튼을 표시한다.
+ */
 import { Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

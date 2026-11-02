@@ -1,3 +1,6 @@
+/**
+ * 인증 폼에서 사용하는 라벨·입력창·안내 영역을 표시한다.
+ */
 import type { ComponentProps } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
