@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import FeedCreateForm from "@/components/feed/FeedCreateForm";
+import FeedForm from "@/components/feed/FeedForm";
 import { CREWS } from "@/data/crews";
 import { USER_PROFILE } from "@/data/profile";
 
@@ -34,7 +34,7 @@ export default function FeedCreatePage() {
           </Button>
         </div>
       ) : (
-        <FeedCreateForm crews={joinedCrews} profile={USER_PROFILE} />
+        <FeedForm mode="create" crews={joinedCrews} profile={USER_PROFILE} />
       )}
     </section>
   );

@@ -26,6 +26,8 @@ import CrewMembersPage from "./pages/crew/CrewMembersPage";
 import RunningPage from "./pages/running/RunningPage";
 import FeedPage from "./pages/feed/FeedPage";
 import FeedCreatePage from "./pages/feed/FeedCreatePage";
+import FeedDetailPage from "./pages/feed/FeedDetailPage";
+import FeedEditPage from "./pages/feed/FeedEditPage";
 
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProfileEditPage from "./pages/profile/ProfileEditPage";
@@ -43,6 +45,8 @@ function App() {
           <Route path="/running" element={<RunningPage />} />
           <Route path="/feed" element={<FeedPage />} />
           <Route path="/feed/new" element={<FeedCreatePage />} />
+          <Route path="/feed/:activityId/edit" element={<FeedEditPage />} />
+          <Route path="/feed/:activityId" element={<FeedDetailPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/crews" element={<CrewPage />} />

@@ -36,6 +36,7 @@ export interface CrewActivity {
   crewId: number;
   emoji: string;
   nickname: string;
+  content: string;
   distanceKm: number;
   createdAt: string;
 }
@@ -353,6 +354,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "🌙",
     nickname: "김새벽",
     distanceKm: 8.2,
+    content:
+      "오늘은 여의도 한강을 따라 8.2km를 달렸어요.\n\n선선한 바람 덕분에 끝까지 기분 좋게 달릴 수 있었습니다. 함께해주신 러너분들 감사합니다!",
     createdAt: "2026-10-29T18:00:00+09:00",
   },
   {
@@ -361,6 +364,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "🏃",
     nickname: "이러너",
     distanceKm: 5,
+    content:
+      "바쁜 하루 중에도 잠깐 시간을 내어 5km를 달렸습니다.\n꾸준히 달리는 습관을 만들어가고 있어요.",
     createdAt: "2026-10-29T15:00:00+09:00",
   },
   {
@@ -369,6 +374,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "⚡",
     nickname: "박달리기",
     distanceKm: 6.4,
+    content:
+      "오늘은 무리하지 않고 편안한 속도로 달렸어요.\n달리기를 마친 뒤 스트레칭까지 하니 몸이 한결 가벼워졌습니다.",
     createdAt: "2026-10-28T19:00:00+09:00",
   },
   {
@@ -377,6 +384,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "🌅",
     nickname: "최크루",
     distanceKm: 4,
+    content:
+      "아침 햇살을 보며 가볍게 4km를 달렸습니다.\n일찍 일어나기는 어려웠지만 나오길 잘했네요!",
     createdAt: "2026-10-27T07:00:00+09:00",
   },
   {
@@ -385,6 +394,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "🌊",
     nickname: "한강러너",
     distanceKm: 7,
+    content:
+      "반포 한강공원에서 크루원들과 7km를 함께 달렸어요.\n\n서로 속도를 맞춰주며 달리니 혼자 달릴 때보다 즐거웠습니다. 다음 러닝에서도 만나요!",
     createdAt: "2026-10-29T07:00:00+09:00",
   },
   {
@@ -393,6 +404,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "👟",
     nickname: "정조깅",
     distanceKm: 3.5,
+    content:
+      "오랜만에 러닝화를 신고 천천히 달렸습니다.\n짧은 거리부터 차근차근 늘려보려고 해요.",
     createdAt: "2026-10-26T07:00:00+09:00",
   },
   {
@@ -401,6 +414,8 @@ export const CREW_ACTIVITIES: CrewActivity[] = [
     emoji: "🍀",
     nickname: "윤러닝",
     distanceKm: 4.2,
+    content:
+      "오늘도 내 속도에 맞춰 한 바퀴 완주했습니다.\n함께 달리는 분들의 응원이 큰 힘이 되었어요.",
     createdAt: "2026-10-26T07:00:00+09:00",
   },
 ];
@@ -512,3 +527,6 @@ export const CREWS: Crew[] = CREW_SEEDS.map((crew) => ({
 
 // 실제 소유권 검사와 별개로 크루 편집 UI를 확인할 샘플 ID를 정의한다.
 export const OWNED_CREW_SAMPLE_ID = 1;
+
+// 실제 소유권·편집 권한 검사와 별개로 피드 수정 UI를 확인할 활동 ID를 정의한다.
+export const FEED_EDIT_SAMPLE_ACTIVITY_ID = 1;
