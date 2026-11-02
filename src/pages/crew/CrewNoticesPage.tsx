@@ -1,12 +1,14 @@
 /**
  * 크루의 공지사항을 최신순으로 정렬하고 페이지별로 표시한다.
  */
+import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import ListPagination from "@/components/common/ListPagination";
 import { Button } from "@/components/ui/button";
-import { CREWS, CREW_NOTICES } from "@/data/crews";
+import { CREWS, CREW_NOTICES, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 import { dateFormatter } from "@/lib/date";
 
 const PAGE_SIZE = 5;
@@ -89,7 +91,10 @@ export default function CrewNoticesPage() {
   }
 
   return (
-    <section aria-labelledby="crew-notices-title">
+    <section
+      aria-labelledby="crew-notices-title"
+      className={cn(crew.id === OWNED_CREW_SAMPLE_ID && "pb-16")}
+    >
       <div className="flex items-center justify-between gap-3">
         <h1
           id="crew-notices-title"
@@ -150,6 +155,17 @@ export default function CrewNoticesPage() {
         label="공지사항 페이지"
         onPageChange={changePage}
       />
+      {crew.id === OWNED_CREW_SAMPLE_ID && (
+        <Button
+          asChild
+          size="icon"
+          className="bg-app-accent hover:bg-app-accent/90 fixed right-6 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-40 size-14 cursor-pointer rounded-full text-white shadow-lg"
+        >
+          <Link to={`/crews/${crew.id}/notices/new`} aria-label="공지 작성">
+            <Plus aria-hidden="true" className="size-6" />
+          </Link>
+        </Button>
+      )}
     </section>
   );
 }
