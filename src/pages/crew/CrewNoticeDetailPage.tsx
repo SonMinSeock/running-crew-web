@@ -1,12 +1,13 @@
 /**
  * 크루와 공지 ID를 확인해 공지 상세 또는 잘못된 접근 안내를 구성한다.
  */
+import { Pencil } from "lucide-react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import NoticeDetailContent from "@/components/crew/NoticeDetailContent";
-import { CREWS, CREW_NOTICES } from "@/data/crews";
+import { CREWS, CREW_NOTICES, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 
 export default function CrewNoticeDetailPage() {
   const { crewId, noticeId } = useParams();
@@ -42,6 +43,16 @@ export default function CrewNoticeDetailPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
+      {crew.id === OWNED_CREW_SAMPLE_ID && (
+        <div className="flex justify-end">
+          <Button asChild variant="ghost" className="bg-app-card rounded-full">
+            <Link to={`/crews/${crew.id}/notices/${notice.id}/edit`}>
+              <Pencil aria-hidden="true" className="size-4" />
+              편집
+            </Link>
+          </Button>
+        </div>
+      )}
       <NoticeDetailContent crew={crew} notice={notice} />
       <div className="flex justify-end">
         <ViewMoreButton to={`/crews/${crew.id}/notices`}>

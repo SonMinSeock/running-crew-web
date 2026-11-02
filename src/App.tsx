@@ -13,6 +13,8 @@ import CrewRunDetailPage from "./pages/crew/CrewRunDetailPage";
 import CrewRunCreatePage from "./pages/crew/CrewRunCreatePage";
 import CrewRunsPage from "./pages/crew/CrewRunsPage";
 import CrewNoticeDetailPage from "./pages/crew/CrewNoticeDetailPage";
+import CrewNoticeCreatePage from "./pages/crew/CrewNoticeCreatePage";
+import CrewNoticeEditPage from "./pages/crew/CrewNoticeEditPage";
 import CrewNoticesPage from "./pages/crew/CrewNoticesPage";
 import CrewActivitiesPage from "./pages/crew/CrewActivitiesPage";
 import CrewMembersPage from "./pages/crew/CrewMembersPage";
@@ -53,6 +55,14 @@ function App() {
             element={<CrewRunDetailPage />}
           />
           <Route path="/crews/:crewId/notices" element={<CrewNoticesPage />} />
+          <Route
+            path="/crews/:crewId/notices/new"
+            element={<CrewNoticeCreatePage />}
+          />
+          <Route
+            path="/crews/:crewId/notices/:noticeId/edit"
+            element={<CrewNoticeEditPage />}
+          />
           <Route
             path="/crews/:crewId/notices/:noticeId"
             element={<CrewNoticeDetailPage />}

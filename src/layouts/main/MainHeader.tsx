@@ -3,7 +3,7 @@ import { useLocation, useMatch, useNavigate } from "react-router-dom";
 import ProfileButton from "@/components/common/ProfileButton";
 import ThemeModeButton from "@/components/common/ThemeModeButton";
 import { Button } from "@/components/ui/button";
-import { CREWS } from "@/data/crews";
+import { CREWS, CREW_NOTICES, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 import { cn } from "@/lib/utils";
 
 export default function MainHeader() {
@@ -20,7 +20,10 @@ export default function MainHeader() {
   // 작성 경로의 new를 상세 일정 ID로 취급하지 않는다.
   const runDetailMatch = runCreateMatch ? null : matchedRunDetail;
   const crewRunsMatch = useMatch("/crews/:crewId/runs");
-  const noticeDetailMatch = useMatch("/crews/:crewId/notices/:noticeId");
+  const noticeCreateMatch = useMatch("/crews/:crewId/notices/new");
+  const noticeEditMatch = useMatch("/crews/:crewId/notices/:noticeId/edit");
+  const matchedNoticeDetail = useMatch("/crews/:crewId/notices/:noticeId");
+  const noticeDetailMatch = noticeCreateMatch ? null : matchedNoticeDetail;
   const crewNoticesMatch = useMatch("/crews/:crewId/notices");
   const crewActivitiesMatch = useMatch("/crews/:crewId/activities");
   const crewMembersMatch = useMatch("/crews/:crewId/members");
@@ -37,7 +40,9 @@ export default function MainHeader() {
       crewListMatch ??
       runCreateMatch ??
       runDetailMatch ??
-      noticeDetailMatch);
+      noticeDetailMatch ??
+      noticeCreateMatch ??
+      noticeEditMatch);
   const isProfileEdit = pathname === "/profile/edit";
   const isFeedCreate = pathname === "/feed/new";
   const showBackButton =
@@ -47,29 +52,33 @@ export default function MainHeader() {
     (item) => String(item.id) === crewMatch?.params.crewId,
   );
 
-  const headerTitle = crewEditMatch
-    ? "크루 수정"
-    : noticeDetailMatch
-      ? "공지 상세"
-      : runCreateMatch
-        ? "러닝 일정 만들기"
-        : runDetailMatch
-          ? "러닝 일정 상세"
-          : isCrewCreate
-            ? "크루 만들기"
-            : isFeedCreate
-              ? "피드 작성"
-              : isProfileEdit
-                ? "프로필 편집"
-                : crewRunsMatch
-                  ? "러닝 일정"
-                  : crewNoticesMatch
-                    ? "공지사항"
-                    : crewActivitiesMatch
-                      ? "최근 활동"
-                      : crewMembersMatch
-                        ? "멤버"
-                        : (crew?.name ?? "크루 상세");
+  const headerTitle = noticeCreateMatch
+    ? "공지 작성"
+    : noticeEditMatch
+      ? "공지 수정"
+      : crewEditMatch
+        ? "크루 수정"
+        : noticeDetailMatch
+          ? "공지 상세"
+          : runCreateMatch
+            ? "러닝 일정 만들기"
+            : runDetailMatch
+              ? "러닝 일정 상세"
+              : isCrewCreate
+                ? "크루 만들기"
+                : isFeedCreate
+                  ? "피드 작성"
+                  : isProfileEdit
+                    ? "프로필 편집"
+                    : crewRunsMatch
+                      ? "러닝 일정"
+                      : crewNoticesMatch
+                        ? "공지사항"
+                        : crewActivitiesMatch
+                          ? "최근 활동"
+                          : crewMembersMatch
+                            ? "멤버"
+                            : (crew?.name ?? "크루 상세");
 
   const showProfileButton = pathname === "/";
 
@@ -79,6 +88,22 @@ export default function MainHeader() {
 
     if (typeof historyIndex === "number" && historyIndex > 0) {
       navigate(-1);
+      return;
+    }
+
+    if (noticeCreateMatch || noticeEditMatch) {
+      // 유효한 수정 샘플만 상세로 복귀하고 나머지는 목록으로 이동한다.
+      const notice = CREW_NOTICES.find(
+        (item) =>
+          item.crewId === crew?.id &&
+          String(item.id) === noticeEditMatch?.params.noticeId,
+      );
+      const target = !crew
+        ? "/crews"
+        : noticeEditMatch && crew.id === OWNED_CREW_SAMPLE_ID && notice
+          ? `/crews/${crew.id}/notices/${notice.id}`
+          : `/crews/${crew.id}/notices`;
+      navigate(target, { replace: true });
       return;
     }
 
