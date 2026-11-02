@@ -1,10 +1,10 @@
 /**
  * 크루 기본 정보와 일정·공지·활동·멤버 미리보기를 구성한다.
  */
-import { UsersRound } from "lucide-react";
+import { Pencil, UsersRound } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { CREWS } from "@/data/crews";
+import { CREWS, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 import NextCrewRun from "@/components/crew/NextCrewRun";
 import LatestCrewNotice from "@/components/crew/LatestCrewNotice";
 import RecentCrewActivities from "@/components/crew/RecentCrewActivities";
@@ -37,14 +37,14 @@ export default function CrewDetailPage() {
         aria-labelledby="crew-info-title"
         className="bg-app-card rounded-3xl p-5 md:p-6"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <div
             aria-hidden="true"
             className="bg-app-text/5 flex size-16 shrink-0 items-center justify-center rounded-2xl text-3xl"
           >
             {crew.emoji}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1 basis-32">
             <h1 id="crew-info-title" className="text-xl font-bold">
               {crew.name}
             </h1>
@@ -58,6 +58,18 @@ export default function CrewDetailPage() {
               <span>{crew.region}</span>
             </p>
           </div>
+          {crew.id === OWNED_CREW_SAMPLE_ID && (
+            <Button
+              asChild
+              variant="ghost"
+              className="bg-app-text/5 rounded-full"
+            >
+              <Link to={`/crews/${crew.id}/edit`}>
+                <Pencil aria-hidden="true" className="size-4" />
+                편집
+              </Link>
+            </Button>
+          )}
         </div>
         <p className="text-app-subtext mt-4 text-sm leading-relaxed">
           {crew.description}
