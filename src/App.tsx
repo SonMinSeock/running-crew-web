@@ -1,3 +1,6 @@
+/**
+ * 인증 화면과 주요 화면의 라우트를 구성한다.
+ */
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./layouts/auth/AuthLayout";
@@ -11,6 +14,7 @@ import CrewCreatePage from "./pages/crew/CrewCreatePage";
 import CrewDetailPage from "./pages/crew/CrewDetailPage";
 import CrewRunDetailPage from "./pages/crew/CrewRunDetailPage";
 import CrewRunCreatePage from "./pages/crew/CrewRunCreatePage";
+import CrewRunEditPage from "./pages/crew/CrewRunEditPage";
 import CrewRunsPage from "./pages/crew/CrewRunsPage";
 import CrewNoticeDetailPage from "./pages/crew/CrewNoticeDetailPage";
 import CrewNoticeCreatePage from "./pages/crew/CrewNoticeCreatePage";
@@ -49,6 +53,10 @@ function App() {
           <Route
             path="/crews/:crewId/runs/new"
             element={<CrewRunCreatePage />}
+          />
+          <Route
+            path="/crews/:crewId/runs/:runId/edit"
+            element={<CrewRunEditPage />}
           />
           <Route
             path="/crews/:crewId/runs/:runId"

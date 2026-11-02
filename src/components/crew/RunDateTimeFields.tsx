@@ -19,6 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { getRunFormTime } from "@/lib/date";
+
+interface RunDateTimeFieldsProps {
+  initialStartsAt?: string;
+}
 
 const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
   timeZone: "Asia/Seoul",
@@ -27,11 +32,19 @@ const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
   day: "numeric",
 });
 
-export default function RunDateTimeFields() {
-  const [date, setDate] = useState<Date>();
+export default function RunDateTimeFields({
+  initialStartsAt,
+}: RunDateTimeFieldsProps) {
+  const [date, setDate] = useState<Date | undefined>(() => {
+    if (!initialStartsAt) return undefined;
+
+    const initialDate = new Date(initialStartsAt);
+
+    return Number.isNaN(initialDate.getTime()) ? undefined : initialDate;
+  });
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-  const [hour, setHour] = useState("");
-  const [minute, setMinute] = useState("");
+  const [hour, setHour] = useState(() => getRunFormTime(initialStartsAt).hour);
+  const [minute, setMinute] = useState(() => getRunFormTime(initialStartsAt).minute);
   const triggerClassName =
     "bg-app-card border-app-border text-app-text focus-visible:border-app-accent focus-visible:ring-app-accent/40 w-full min-w-0 rounded-xl px-3 text-sm data-[size=default]:h-12";
 
@@ -39,7 +52,7 @@ export default function RunDateTimeFields() {
     <div className="space-y-3">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div className="flex min-w-0 flex-col gap-3">
-          <label htmlFor="run-create-date" className="text-sm font-semibold">
+          <label htmlFor="run-form-date" className="text-sm font-semibold">
             날짜{" "}
             <span aria-hidden="true" className="text-app-error">
               *
@@ -49,10 +62,10 @@ export default function RunDateTimeFields() {
           <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
             <PopoverTrigger asChild>
               <Button
-                id="run-create-date"
+                id="run-form-date"
                 type="button"
                 variant="outline"
-                aria-describedby="run-create-timezone"
+                aria-describedby="run-form-timezone"
                 className={cn(
                   "bg-app-card border-app-border h-12 w-full min-w-0 justify-between rounded-xl px-3",
                   !date && "text-app-subtext",
@@ -102,7 +115,7 @@ export default function RunDateTimeFields() {
             <Select value={hour} onValueChange={setHour}>
               <SelectTrigger
                 aria-label="시 선택"
-                aria-describedby="run-create-timezone"
+                aria-describedby="run-form-timezone"
                 className={triggerClassName}
               >
                 <SelectValue placeholder="시 선택" />
@@ -127,7 +140,7 @@ export default function RunDateTimeFields() {
             <Select value={minute} onValueChange={setMinute}>
               <SelectTrigger
                 aria-label="분 선택"
-                aria-describedby="run-create-timezone"
+                aria-describedby="run-form-timezone"
                 className={triggerClassName}
               >
                 <SelectValue placeholder="분 선택" />
@@ -152,7 +165,7 @@ export default function RunDateTimeFields() {
           </div>
         </fieldset>
       </div>
-      <p id="run-create-timezone" className="text-app-subtext text-xs">
+      <p id="run-form-timezone" className="text-app-subtext text-xs">
         날짜와 시간은 한국 시간 기준입니다. 시간은 24시간제로 선택해주세요.
       </p>
     </div>

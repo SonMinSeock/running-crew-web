@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import CrewRunCreateForm from "@/components/crew/CrewRunCreateForm";
+import CrewRunForm from "@/components/crew/CrewRunForm";
 import { CREWS } from "@/data/crews";
 
 export default function CrewRunCreatePage() {
@@ -38,13 +38,7 @@ export default function CrewRunCreatePage() {
       <h1 id="run-create-page-title" className="text-xl font-bold">
         러닝 일정 만들기
       </h1>
-      <div className="bg-app-card flex items-center gap-3 rounded-2xl p-4">
-        <span aria-hidden="true" className="shrink-0 text-2xl">
-          {crew.emoji}
-        </span>
-        <p className="min-w-0 font-semibold break-words">{crew.name}</p>
-      </div>
-      <CrewRunCreateForm key={crew.id} />
+      <CrewRunForm crew={crew} mode="create" />
     </section>
   );
 }
