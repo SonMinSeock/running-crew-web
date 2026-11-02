@@ -6,6 +6,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import MainLayout from "./layouts/main/MainLayout";
 import CrewPage from "./pages/crew/CrewPage";
+import CrewCreatePage from "./pages/crew/CrewCreatePage";
 import CrewDetailPage from "./pages/crew/CrewDetailPage";
 import CrewRunsPage from "./pages/crew/CrewRunsPage";
 import CrewNoticesPage from "./pages/crew/CrewNoticesPage";
@@ -35,6 +36,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/crews" element={<CrewPage />} />
+          <Route path="/crews/new" element={<CrewCreatePage />} />
           <Route path="/crews/:crewId" element={<CrewDetailPage />} />
           <Route path="/crews/:crewId/runs" element={<CrewRunsPage />} />
           <Route path="/crews/:crewId/notices" element={<CrewNoticesPage />} />
