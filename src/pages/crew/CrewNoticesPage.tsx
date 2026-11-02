@@ -3,6 +3,7 @@
  */
 import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
 import ListPagination from "@/components/common/ListPagination";
 import { Button } from "@/components/ui/button";
 import { CREWS, CREW_NOTICES } from "@/data/crews";
@@ -129,6 +130,14 @@ export default function CrewNoticesPage() {
                 <p className="text-app-subtext mt-3 text-sm leading-relaxed break-words whitespace-pre-wrap">
                   {notice.content}
                 </p>
+                <div className="border-app-border mt-4 border-t pt-4">
+                  <ViewMoreButton
+                    to={`/crews/${crew.id}/notices/${notice.id}`}
+                    aria-label={`${notice.title} 공지 상세 보기`}
+                  >
+                    공지 상세 보기
+                  </ViewMoreButton>
+                </div>
               </article>
             </li>
           ))}

@@ -19,6 +19,7 @@ export default function MainHeader() {
   // 작성 경로의 new를 상세 일정 ID로 취급하지 않는다.
   const runDetailMatch = runCreateMatch ? null : matchedRunDetail;
   const crewRunsMatch = useMatch("/crews/:crewId/runs");
+  const noticeDetailMatch = useMatch("/crews/:crewId/notices/:noticeId");
   const crewNoticesMatch = useMatch("/crews/:crewId/notices");
   const crewActivitiesMatch = useMatch("/crews/:crewId/activities");
   const crewMembersMatch = useMatch("/crews/:crewId/members");
@@ -30,7 +31,11 @@ export default function MainHeader() {
     crewMembersMatch;
   const crewMatch = isCrewCreate
     ? null
-    : (crewDetailMatch ?? crewListMatch ?? runCreateMatch ?? runDetailMatch);
+    : (crewDetailMatch ??
+      crewListMatch ??
+      runCreateMatch ??
+      runDetailMatch ??
+      noticeDetailMatch);
   const isProfileEdit = pathname === "/profile/edit";
   const isFeedCreate = pathname === "/feed/new";
   const showBackButton =
@@ -40,25 +45,27 @@ export default function MainHeader() {
     (item) => String(item.id) === crewMatch?.params.crewId,
   );
 
-  const headerTitle = runCreateMatch
-    ? "러닝 일정 만들기"
-    : runDetailMatch
-      ? "러닝 일정 상세"
-      : isCrewCreate
-        ? "크루 만들기"
-        : isFeedCreate
-          ? "피드 작성"
-          : isProfileEdit
-            ? "프로필 편집"
-            : crewRunsMatch
-              ? "러닝 일정"
-              : crewNoticesMatch
-                ? "공지사항"
-                : crewActivitiesMatch
-                  ? "최근 활동"
-                  : crewMembersMatch
-                    ? "멤버"
-                    : (crew?.name ?? "크루 상세");
+  const headerTitle = noticeDetailMatch
+    ? "공지 상세"
+    : runCreateMatch
+      ? "러닝 일정 만들기"
+      : runDetailMatch
+        ? "러닝 일정 상세"
+        : isCrewCreate
+          ? "크루 만들기"
+          : isFeedCreate
+            ? "피드 작성"
+            : isProfileEdit
+              ? "프로필 편집"
+              : crewRunsMatch
+                ? "러닝 일정"
+                : crewNoticesMatch
+                  ? "공지사항"
+                  : crewActivitiesMatch
+                    ? "최근 활동"
+                    : crewMembersMatch
+                      ? "멤버"
+                      : (crew?.name ?? "크루 상세");
 
   const showProfileButton = pathname === "/";
 
@@ -72,17 +79,21 @@ export default function MainHeader() {
     }
 
     navigate(
-      runCreateMatch || runDetailMatch
+      noticeDetailMatch
         ? crew
-          ? `/crews/${crew.id}/runs`
+          ? `/crews/${crew.id}/notices`
           : "/crews"
-        : isFeedCreate
-          ? "/feed"
-          : isProfileEdit
-            ? "/profile"
-            : crewListMatch && crew
-              ? `/crews/${crew.id}`
-              : "/crews",
+        : runCreateMatch || runDetailMatch
+          ? crew
+            ? `/crews/${crew.id}/runs`
+            : "/crews"
+          : isFeedCreate
+            ? "/feed"
+            : isProfileEdit
+              ? "/profile"
+              : crewListMatch && crew
+                ? `/crews/${crew.id}`
+                : "/crews",
       {
         replace: true,
       },

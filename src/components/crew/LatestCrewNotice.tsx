@@ -42,7 +42,7 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
       </div>
       {latestNotice ? (
         <>
-          {/* 공지 상세 연결 전까지 일반 콘텐츠로 표시한다. */}
+          {/* 기존 미리보기를 유지하고 별도 링크로 상세 화면에 연결한다. */}
           <article className="bg-app-text/5 mt-4 rounded-2xl p-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="min-w-0 text-base font-bold break-words">
@@ -59,6 +59,14 @@ export default function LatestCrewNotice({ crewId }: LatestCrewNoticeProps) {
             <p className="text-app-subtext mt-3 line-clamp-2 text-sm leading-relaxed break-words">
               {latestNotice.content}
             </p>
+            <div className="mt-4">
+              <ViewMoreButton
+                to={`/crews/${crewId}/notices/${latestNotice.id}`}
+                aria-label={`${latestNotice.title} 공지 상세 보기`}
+              >
+                공지 상세 보기
+              </ViewMoreButton>
+            </div>
           </article>
         </>
       ) : (
