@@ -1,13 +1,14 @@
 /**
  * 프로필 정보의 편집 입력 UI를 표시하고 저장 기능은 비활성 상태로 제공한다.
  */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { USER_PROFILE } from "@/data/profile";
 
 export default function ProfileEditPage() {
+  const [bio, setBio] = useState(USER_PROFILE.bio);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
@@ -37,7 +38,7 @@ export default function ProfileEditPage() {
           프로필 이미지 변경
         </Button>
       </div>
-      {/* 입력 UI만 제공하고 변경 내용의 저장과 검증은 후속 작업에서 연결한다. */}
+      {/* 입력 UI만 제공하고 글자 수를 제한하고 변경 내용의 저장은 후속 작업에서 연결한다. */}
       <div className="space-y-5">
         <div className="flex flex-col gap-3">
           <label htmlFor="profile-nickname" className="text-sm font-semibold">
@@ -65,10 +66,19 @@ export default function ProfileEditPage() {
           </label>
           <textarea
             id="profile-bio"
-            defaultValue={USER_PROFILE.bio}
+            value={bio}
+            onChange={(event) => setBio(event.target.value)}
+            maxLength={150}
+            aria-describedby="profile-bio-count"
             rows={4}
             className="bg-app-card border-app-border focus-visible:ring-app-accent block w-full resize-y rounded-xl border px-3 py-3 text-sm focus-visible:ring-2 focus-visible:outline-none"
           />
+          <p
+            id="profile-bio-count"
+            className="text-app-subtext text-right text-xs"
+          >
+            {bio.length} / 150자
+          </p>
         </div>
       </div>
       <p id="profile-edit-description" className="text-app-subtext text-sm">

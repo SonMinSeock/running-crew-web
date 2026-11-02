@@ -5,7 +5,7 @@ import RecommendedCrews from "@/components/crew/RecommendedCrews";
 import SearchInput from "@/components/common/SearchInput";
 import JoinedCrews from "@/components/crew/JoinedCrews";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -35,12 +35,14 @@ export default function CrewPage() {
       <JoinedCrews />
       <RecommendedCrews variant="crew" />
       <Button
-        type="button"
+        asChild
         size="icon"
         aria-label="크루 생성"
         className="bg-app-accent hover:bg-app-accent/90 fixed right-6 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-40 size-14 cursor-pointer rounded-full text-white shadow-lg"
       >
-        <Plus className="size-6" aria-hidden="true" />
+        <Link to="/crews/new">
+          <Plus className="size-6" aria-hidden="true" />
+        </Link>
       </Button>
     </div>
   );

@@ -10,7 +10,8 @@ export default function MainHeader() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // 크루 상세와 구현된 하위 목록에서 뒤로 버튼을 표시한다.
+  // 생성 화면을 상세 경로와 구분하고 하위 화면에서 뒤로 버튼을 표시한다.
+  const isCrewCreate = pathname === "/crews/new";
   const crewDetailMatch = useMatch("/crews/:crewId");
   const crewRunsMatch = useMatch("/crews/:crewId/runs");
   const crewNoticesMatch = useMatch("/crews/:crewId/notices");
@@ -22,28 +23,31 @@ export default function MainHeader() {
     crewNoticesMatch ??
     crewActivitiesMatch ??
     crewMembersMatch;
-  const crewMatch = crewDetailMatch ?? crewListMatch;
+  const crewMatch = isCrewCreate ? null : (crewDetailMatch ?? crewListMatch);
   const isProfileEdit = pathname === "/profile/edit";
   const isFeedCreate = pathname === "/feed/new";
-  const showBackButton = Boolean(crewMatch) || isProfileEdit || isFeedCreate;
+  const showBackButton =
+    Boolean(crewMatch) || isProfileEdit || isFeedCreate || isCrewCreate;
 
   const crew = CREWS.find(
     (item) => String(item.id) === crewMatch?.params.crewId,
   );
 
-  const headerTitle = isFeedCreate
-    ? "피드 작성"
-    : isProfileEdit
-      ? "프로필 편집"
-      : crewRunsMatch
-        ? "러닝 일정"
-        : crewNoticesMatch
-          ? "공지사항"
-          : crewActivitiesMatch
-            ? "최근 활동"
-            : crewMembersMatch
-              ? "멤버"
-              : (crew?.name ?? "크루 상세");
+  const headerTitle = isCrewCreate
+    ? "크루 만들기"
+    : isFeedCreate
+      ? "피드 작성"
+      : isProfileEdit
+        ? "프로필 편집"
+        : crewRunsMatch
+          ? "러닝 일정"
+          : crewNoticesMatch
+            ? "공지사항"
+            : crewActivitiesMatch
+              ? "최근 활동"
+              : crewMembersMatch
+                ? "멤버"
+                : (crew?.name ?? "크루 상세");
 
   const showProfileButton = pathname === "/";
 

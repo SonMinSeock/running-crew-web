@@ -66,6 +66,7 @@ export default function FeedCreateForm({
         </label>
         <textarea
           id="feed-create-content"
+          maxLength={1000}
           value={content}
           onChange={(event) => setContent(event.target.value)}
           rows={9}
