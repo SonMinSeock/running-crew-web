@@ -37,3 +37,14 @@ export const runDetailDateFormatter = new Intl.DateTimeFormat("ko-KR", {
   day: "numeric",
   weekday: "short",
 });
+
+// 공지 상세의 작성 시각을 연도와 함께 한국 시간으로 표시한다.
+export const noticeDateTimeFormatter = new Intl.DateTimeFormat("ko-KR", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  hour12: true,
+});
