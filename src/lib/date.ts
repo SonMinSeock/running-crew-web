@@ -28,3 +28,12 @@ export const runDateTimeFormatter = new Intl.DateTimeFormat("ko-KR", {
   minute: "2-digit",
   hour12: true,
 });
+
+// 상세 화면에서 연도를 포함한 한국 날짜를 표시한다.
+export const runDetailDateFormatter = new Intl.DateTimeFormat("ko-KR", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  weekday: "short",
+});

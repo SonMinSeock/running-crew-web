@@ -78,6 +78,14 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
               <p className="text-app-subtext mt-1 text-xs">참여 예정</p>
             </div>
           </div>
+          <div className="mt-4">
+            <ViewMoreButton
+              to={`/crews/${crewId}/runs/${nextRun.id}`}
+              aria-label={`${nextRun.title} 일정 상세 보기`}
+            >
+              일정 상세 보기
+            </ViewMoreButton>
+          </div>
           {/* 참여 상태 변경과 모달은 후속 작업에서 연결한다. */}
           <RunParticipationButton
             disabled

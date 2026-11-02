@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Clock3, MapPin } from "lucide-react";
 import ListPagination from "@/components/common/ListPagination";
+import ViewMoreButton from "@/components/common/ViewMoreButton";
 import RunParticipationButton from "@/components/common/RunParticipationButton";
 import { Button } from "@/components/ui/button";
 import { CREWS, CREW_RUNS } from "@/data/crews";
@@ -172,6 +173,14 @@ export default function CrewRunsPage() {
                       </p>
                     </>
                   )}
+                  <div className="border-app-border mt-4 border-t pt-4">
+                    <ViewMoreButton
+                      to={`/crews/${crew.id}/runs/${run.id}`}
+                      aria-label={`${run.title} 일정 상세 보기`}
+                    >
+                      일정 상세 보기
+                    </ViewMoreButton>
+                  </div>
                 </article>
               </li>
             );
