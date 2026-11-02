@@ -3,7 +3,7 @@
  */
 import { useEffect, useRef } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { Clock3, MapPin } from "lucide-react";
+import { Clock3, MapPin, Plus } from "lucide-react";
 import ListPagination from "@/components/common/ListPagination";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import RunParticipationButton from "@/components/common/RunParticipationButton";
@@ -83,7 +83,7 @@ export default function CrewRunsPage() {
   }
 
   return (
-    <section aria-labelledby="crew-runs-title">
+    <section aria-labelledby="crew-runs-title" className="pb-16">
       <div className="flex items-center justify-between gap-3">
         <h1
           id="crew-runs-title"
@@ -193,6 +193,15 @@ export default function CrewRunsPage() {
         label="러닝 일정 페이지"
         onPageChange={changePage}
       />
+      <Button
+        asChild
+        size="icon"
+        className="bg-app-accent hover:bg-app-accent/90 fixed right-6 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-40 size-14 cursor-pointer rounded-full text-white shadow-lg"
+      >
+        <Link to={`/crews/${crew.id}/runs/new`} aria-label="러닝 일정 만들기">
+          <Plus className="size-6" aria-hidden="true" />
+        </Link>
+      </Button>
     </section>
   );
 }
