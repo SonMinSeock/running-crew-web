@@ -39,7 +39,7 @@ export default function MainHeader() {
           ? "멤버"
           : (crew?.name ?? "크루 상세");
 
-  const showProfileButton = pathname === "/" || pathname === "/feed";
+  const showProfileButton = pathname === "/";
 
   const handleBack = () => {
     // 이전 기록이 있으면 뒤로 이동하고 직접 접속했다면 상위 화면으로 이동한다.
@@ -85,6 +85,7 @@ export default function MainHeader() {
         <>
           <div>
             {showProfileButton && <ProfileButton />}
+            {pathname === "/feed" && <p className="text-lg font-bold">피드</p>}
             {pathname === "/running" && (
               <p className="text-lg font-bold">러닝</p>
             )}
