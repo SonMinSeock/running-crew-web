@@ -24,23 +24,26 @@ export default function MainHeader() {
     crewMembersMatch;
   const crewMatch = crewDetailMatch ?? crewListMatch;
   const isProfileEdit = pathname === "/profile/edit";
-  const showBackButton = Boolean(crewMatch) || isProfileEdit;
+  const isFeedCreate = pathname === "/feed/new";
+  const showBackButton = Boolean(crewMatch) || isProfileEdit || isFeedCreate;
 
   const crew = CREWS.find(
     (item) => String(item.id) === crewMatch?.params.crewId,
   );
 
-  const headerTitle = isProfileEdit
-    ? "프로필 편집"
-    : crewRunsMatch
-      ? "러닝 일정"
-      : crewNoticesMatch
-        ? "공지사항"
-        : crewActivitiesMatch
-          ? "최근 활동"
-          : crewMembersMatch
-            ? "멤버"
-            : (crew?.name ?? "크루 상세");
+  const headerTitle = isFeedCreate
+    ? "피드 작성"
+    : isProfileEdit
+      ? "프로필 편집"
+      : crewRunsMatch
+        ? "러닝 일정"
+        : crewNoticesMatch
+          ? "공지사항"
+          : crewActivitiesMatch
+            ? "최근 활동"
+            : crewMembersMatch
+              ? "멤버"
+              : (crew?.name ?? "크루 상세");
 
   const showProfileButton = pathname === "/";
 
@@ -54,11 +57,13 @@ export default function MainHeader() {
     }
 
     navigate(
-      isProfileEdit
-        ? "/profile"
-        : crewListMatch && crew
-          ? `/crews/${crew.id}`
-          : "/crews",
+      isFeedCreate
+        ? "/feed"
+        : isProfileEdit
+          ? "/profile"
+          : crewListMatch && crew
+            ? `/crews/${crew.id}`
+            : "/crews",
       {
         replace: true,
       },

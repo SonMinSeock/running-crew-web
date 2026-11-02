@@ -4,6 +4,7 @@
 import { useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import ListPagination from "@/components/common/ListPagination";
+import FeedCreateButton from "@/components/feed/FeedCreateButton";
 import FeedCrewFilter from "@/components/feed/FeedCrewFilter";
 import FeedActivityCard from "@/components/feed/FeedActivityCard";
 import { Button } from "@/components/ui/button";
@@ -87,7 +88,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-16">
       <header>
         <h1 className="text-2xl font-bold">크루의 러닝 소식을 만나보세요</h1>
         <p className="text-app-subtext mt-3 text-sm">
@@ -156,6 +157,7 @@ export default function FeedPage() {
           </section>
         </>
       )}
+      <FeedCreateButton />
     </div>
   );
 }
