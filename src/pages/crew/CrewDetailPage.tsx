@@ -9,6 +9,9 @@ import NextCrewRun from "@/components/crew/NextCrewRun";
 import LatestCrewNotice from "@/components/crew/LatestCrewNotice";
 import RecentCrewActivities from "@/components/crew/RecentCrewActivities";
 import CrewMembers from "@/components/crew/CrewMembers";
+import CrewMembershipDialog from "@/components/crew/CrewMembershipDialog";
+import { getCrewMembershipUiState } from "@/lib/crew";
+import { cn } from "@/lib/utils";
 
 export default function CrewDetailPage() {
   const { crewId } = useParams();
@@ -30,6 +33,10 @@ export default function CrewDetailPage() {
       </section>
     );
   }
+
+  const membershipState = getCrewMembershipUiState(crew);
+  const isMember = membershipState === "owned" || membershipState === "joined";
+  const isPending = membershipState === "pending";
 
   return (
     <div className="space-y-5">
@@ -74,32 +81,51 @@ export default function CrewDetailPage() {
         <p className="text-app-subtext mt-4 text-sm leading-relaxed">
           {crew.description}
         </p>
-        {/* 가입 상태만 표시하고 상태 변경은 후속 작업에서 연결한다. */}
-        <div className="mt-4">
-          {crew.isJoined ? (
-            <span className="bg-app-accent/10 text-app-accent inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold">
-              <span
-                aria-hidden="true"
-                className="bg-app-accent size-2 rounded-full"
-              />
-              멤버
-            </span>
+        {/* 샘플 상태에 맞는 모달 진입만 제공하고 실제 가입 상태는 변경하지 않는다. */}
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          {isMember ? (
+            <>
+              <span className="bg-app-accent/10 text-app-accent inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold">
+                <span
+                  aria-hidden="true"
+                  className="bg-app-accent size-2 rounded-full"
+                />
+                멤버
+              </span>
+              {membershipState === "joined" && (
+                <CrewMembershipDialog crew={crew}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    aria-label={`${crew.name} 크루 탈퇴`}
+                    className="bg-app-error/10 border-app-error/30 text-app-error h-10 cursor-pointer rounded-full px-4"
+                  >
+                    크루 탈퇴
+                  </Button>
+                </CrewMembershipDialog>
+              )}
+            </>
           ) : (
             <>
-              <Button
-                type="button"
-                disabled
-                className="bg-app-accent text-app-bg rounded-full font-bold"
-                aria-describedby="crew-join-description"
-              >
-                크루 가입
-              </Button>
-              <p
-                id="crew-join-description"
-                className="text-app-subtext mt-2 text-xs"
-              >
-                크루 가입 기능은 준비 중입니다.
-              </p>
+              {isPending && (
+                <span className="bg-app-accent/10 text-app-accent rounded-full px-4 py-2 text-sm font-semibold">
+                  가입 신청 대기 중
+                </span>
+              )}
+              <CrewMembershipDialog crew={crew}>
+                <Button
+                  type="button"
+                  variant={isPending ? "outline" : "default"}
+                  aria-label={`${crew.name} ${isPending ? "신청 취소" : "가입 신청"}`}
+                  className={cn(
+                    "bg-app-accent text-app-bg h-10 cursor-pointer rounded-full",
+                    isPending &&
+                      "bg-app-error/10 border-app-error/30 text-app-error",
+                  )}
+                >
+                  {isPending ? "신청 취소" : "가입 신청"}
+                </Button>
+              </CrewMembershipDialog>
             </>
           )}
         </div>
