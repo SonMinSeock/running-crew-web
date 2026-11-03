@@ -25,21 +25,21 @@ interface CrewMembershipDialogProps {
 }
 
 const dialogCopy = {
-  "not-joined": {
+  NOT_JOINED: {
     title: "크루 가입을 신청할까요?",
     description: "이 크루에 가입을 신청하시겠어요?",
     action: "가입 신청",
     notice:
       "가입 신청 기능은 준비 중입니다. 현재는 실제 신청이 접수되지 않습니다.",
   },
-  pending: {
+  PENDING: {
     title: "가입 신청을 취소할까요?",
     description: "이 크루의 가입 신청을 취소하시겠어요?",
     action: "신청 취소",
     notice:
       "신청 취소 기능은 준비 중입니다. 현재는 실제 신청이 취소되지 않습니다.",
   },
-  joined: {
+  JOINED: {
     title: "크루에서 탈퇴할까요?",
     description: "이 크루에서 탈퇴하시겠어요?",
     action: "크루 탈퇴",
@@ -65,7 +65,7 @@ function CrewMembershipDialogContent({
   const state = getCrewMembershipUiState(crew);
 
   // 실제 탈퇴 정책과 별개로 소유 크루 UI 샘플에는 이번 모달 진입을 제공하지 않는다.
-  if (state === "owned") return null;
+  if (state === "OWNED") return null;
 
   const copy = dialogCopy[state];
 
@@ -107,7 +107,7 @@ function CrewMembershipDialogContent({
             aria-describedby={noticeId}
             className={cn(
               "bg-app-accent text-app-bg h-12 rounded-2xl px-5",
-              state === "joined" && "bg-app-error text-white",
+              state === "JOINED" && "bg-app-error text-white",
             )}
           >
             {copy.action}

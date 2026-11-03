@@ -35,8 +35,8 @@ export default function CrewDetailPage() {
   }
 
   const membershipState = getCrewMembershipUiState(crew);
-  const isMember = membershipState === "owned" || membershipState === "joined";
-  const isPending = membershipState === "pending";
+  const isMember = membershipState === "OWNED" || membershipState === "JOINED";
+  const isPending = membershipState === "PENDING";
 
   return (
     <div className="space-y-5">
@@ -92,7 +92,7 @@ export default function CrewDetailPage() {
                 />
                 멤버
               </span>
-              {membershipState === "joined" && (
+              {membershipState === "JOINED" && (
                 <CrewMembershipDialog crew={crew}>
                   <Button
                     type="button"

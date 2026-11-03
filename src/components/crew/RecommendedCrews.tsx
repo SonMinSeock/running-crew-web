@@ -63,7 +63,7 @@ export default function RecommendedCrews({
       </div>
       <ul className="mt-4 space-y-3">
         {visibleCrews.map((crew) => {
-          const isPending = getCrewMembershipUiState(crew) === "pending";
+          const isPending = getCrewMembershipUiState(crew) === "PENDING";
           const actionLabel = isPending ? "신청 취소" : "가입 신청";
 
           return (
