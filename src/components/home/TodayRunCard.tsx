@@ -2,7 +2,7 @@
  * 공통 데이터에서 홈 샘플 크루의 가장 가까운 예정 일정과 날짜에 맞는 안내를 표시한다.
  */
 import { CalendarDays, UsersRound } from "lucide-react";
-import RunParticipationButton from "@/components/common/RunParticipationButton";
+import RunParticipationPreview from "./RunParticipationPreview";
 import { CREWS, CREW_RUNS, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 import { getUpcomingCrewRuns } from "@/lib/crew";
 import {
@@ -95,19 +95,7 @@ export default function TodayRunCard() {
             {run.participantCount}명
           </span>
         </p>
-        <RunParticipationButton
-          disabled
-          className="mt-5"
-          aria-describedby="home-run-preview-notice"
-        >
-          참여 확인
-        </RunParticipationButton>
-        <p
-          id="home-run-preview-notice"
-          className="text-app-subtext mt-2 text-xs"
-        >
-          참여 확인 화면은 준비 중입니다.
-        </p>
+        <RunParticipationPreview crew={crew} run={run} />
       </article>
     </section>
   );
