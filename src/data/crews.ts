@@ -533,3 +533,6 @@ export const FEED_EDIT_SAMPLE_ACTIVITY_ID = 1;
 
 // 실제 가입 신청 내역과 별개로 신청 대기 UI를 확인할 크루 ID를 정의한다.
 export const CREW_JOIN_PENDING_SAMPLE_ID = 8;
+
+// 실제 개인 참여 내역과 별개로 참여 취소 UI를 확인할 일정 ID를 정의한다.
+export const RUN_PARTICIPATION_SAMPLE_ID = 1;
