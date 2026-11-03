@@ -1,5 +1,5 @@
 /**
- * 홈 또는 크루 화면에 추천 크루 목록을 표시한다.
+ * 홈 또는 크루 화면에 추천 크루와 가입 신청·신청 취소 모달 진입을 표시한다.
  */
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import { useRef, useState } from "react";
@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import ListPagination from "@/components/common/ListPagination";
 import { Link } from "react-router-dom";
 import { CREWS } from "@/data/crews";
+import CrewMembershipDialog from "./CrewMembershipDialog";
+import { getCrewMembershipUiState } from "@/lib/crew";
 
 const RECOMMENDED_CREWS = CREWS.filter((crew) => !crew.isJoined);
 
@@ -60,61 +62,76 @@ export default function RecommendedCrews({
         )}
       </div>
       <ul className="mt-4 space-y-3">
-        {visibleCrews.map((crew) => (
-          <li
-            key={crew.id}
-            className="bg-app-card border-app-border flex items-center gap-3 rounded-2xl border p-4 has-[a:focus-visible]:ring-1 has-[a:focus-visible]:ring-app-accent has-[a:focus-visible]:ring-inset"
-          >
-            <Link
-              to={`/crews/${crew.id}`}
-              className="group flex min-w-0 flex-1 items-center gap-3 rounded-lg focus-visible:outline-none"
-            >
-              <div
-                className="bg-app-text/5 flex size-11 shrink-0 items-center justify-center rounded-full text-2xl"
-                aria-hidden="true"
-              >
-                {crew.emoji}
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="group-hover:text-app-accent text-sm font-bold transition-colors">
-                  {crew.name}
-                </h3>
-                <p className="text-app-subtext mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
-                  <span>{crew.memberCount}명</span>
+        {visibleCrews.map((crew) => {
+          const isPending = getCrewMembershipUiState(crew) === "pending";
+          const actionLabel = isPending ? "신청 취소" : "가입 신청";
 
-                  {variant === "crew" && (
-                    <>
-                      <span aria-hidden="true">·</span>
-                      <span>{crew.region}</span>
-                    </>
-                  )}
-                  <span aria-hidden="true">·</span>
-                  <span>{crew.distanceKm}km</span>
-                  <span aria-hidden="true">·</span>
-                  <span
-                    className={cn(
-                      "font-semibold",
-                      crew.difficulty === "초급" && "text-app-accent",
-                      crew.difficulty === "중급" && "text-amber-500",
-                      crew.difficulty === "고급" && "text-app-error",
-                    )}
-                  >
-                    {crew.difficulty}
-                  </span>
-                </p>
-              </div>
-            </Link>
-            <Button
-              type="button"
-              disabled
-              aria-label={`${crew.name} 참여, 준비 중`}
-              className="bg-app-accent text-app-bg h-8 shrink-0 rounded-full px-4 text-sm font-bold"
+          return (
+            <li
+              key={crew.id}
+              className="bg-app-card border-app-border has-[a:focus-visible]:ring-app-accent flex items-center gap-3 rounded-2xl border p-4 has-[a:focus-visible]:ring-1 has-[a:focus-visible]:ring-inset"
             >
-              참여
-              <span className="sr-only"> 준비 중</span>
-            </Button>
-          </li>
-        ))}
+              <Link
+                to={`/crews/${crew.id}`}
+                className="group flex min-w-0 flex-1 items-center gap-3 rounded-lg focus-visible:outline-none"
+              >
+                <div
+                  className="bg-app-text/5 flex size-11 shrink-0 items-center justify-center rounded-full text-2xl"
+                  aria-hidden="true"
+                >
+                  {crew.emoji}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="group-hover:text-app-accent text-sm font-bold transition-colors">
+                    {crew.name}
+                  </h3>
+                  <p className="text-app-subtext mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                    <span>{crew.memberCount}명</span>
+
+                    {variant === "crew" && (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span>{crew.region}</span>
+                      </>
+                    )}
+                    <span aria-hidden="true">·</span>
+                    <span>{crew.distanceKm}km</span>
+                    <span aria-hidden="true">·</span>
+                    <span
+                      className={cn(
+                        "font-semibold",
+                        crew.difficulty === "초급" && "text-app-accent",
+                        crew.difficulty === "중급" && "text-amber-500",
+                        crew.difficulty === "고급" && "text-app-error",
+                      )}
+                    >
+                      {crew.difficulty}
+                    </span>
+                  </p>
+                  {isPending && (
+                    <p className="text-app-accent mt-2 text-xs font-semibold">
+                      가입 신청 대기 중
+                    </p>
+                  )}
+                </div>
+              </Link>
+              <CrewMembershipDialog crew={crew}>
+                <Button
+                  type="button"
+                  variant={isPending ? "outline" : "default"}
+                  aria-label={`${crew.name} ${actionLabel}`}
+                  className={cn(
+                    "bg-app-accent text-app-bg h-10 shrink-0 cursor-pointer rounded-full px-4",
+                    isPending &&
+                      "bg-app-error/10 border-app-error/30 text-app-error",
+                  )}
+                >
+                  {actionLabel}
+                </Button>
+              </CrewMembershipDialog>
+            </li>
+          );
+        })}
       </ul>
       {variant === "crew" && (
         <ListPagination

@@ -530,3 +530,6 @@ export const OWNED_CREW_SAMPLE_ID = 1;
 
 // 실제 소유권·편집 권한 검사와 별개로 피드 수정 UI를 확인할 활동 ID를 정의한다.
 export const FEED_EDIT_SAMPLE_ACTIVITY_ID = 1;
+
+// 실제 가입 신청 내역과 별개로 신청 대기 UI를 확인할 크루 ID를 정의한다.
+export const CREW_JOIN_PENDING_SAMPLE_ID = 8;
