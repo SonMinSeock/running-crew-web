@@ -3,8 +3,8 @@
  */
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
-import RunParticipationButton from "@/components/common/RunParticipationButton";
-import { CREW_RUNS } from "@/data/crews";
+import RunParticipationAction from "./RunParticipationAction";
+import { CREWS, CREW_RUNS } from "@/data/crews";
 import { cn } from "@/lib/utils";
 import { runDateFormatter, timeFormatter } from "@/lib/date";
 import { getUpcomingCrewRuns } from "@/lib/crew";
@@ -14,6 +14,8 @@ interface NextCrewRunProps {
 }
 
 export default function NextCrewRun({ crewId }: NextCrewRunProps) {
+  const crew = CREWS.find((item) => item.id === crewId);
+
   // 예정된 일정 중 해당 크루의 가장 가까운 일정을 선택한다.
   const nextRun = getUpcomingCrewRuns(CREW_RUNS, Date.now()).find(
     (run) => run.crewId === crewId,
@@ -39,7 +41,7 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
           전체 보기
         </ViewMoreButton>
       </div>
-      {nextRun ? (
+      {nextRun && crew ? (
         <div className="bg-app-text/5 mt-4 rounded-2xl p-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
@@ -86,20 +88,7 @@ export default function NextCrewRun({ crewId }: NextCrewRunProps) {
               일정 상세 보기
             </ViewMoreButton>
           </div>
-          {/* 참여 상태 변경과 모달은 후속 작업에서 연결한다. */}
-          <RunParticipationButton
-            disabled
-            className="mt-5"
-            aria-describedby="run-action-description"
-          >
-            참여 신청
-          </RunParticipationButton>
-          <p
-            id="run-action-description"
-            className="text-app-subtext mt-2 text-xs"
-          >
-            참여 신청 기능은 준비 중입니다.
-          </p>
+          <RunParticipationAction crew={crew} run={nextRun} className="mt-5" />
         </div>
       ) : (
         <p className="text-app-subtext py-8 text-center text-sm">

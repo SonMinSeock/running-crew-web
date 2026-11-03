@@ -6,7 +6,7 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import { Clock3, MapPin, Plus } from "lucide-react";
 import ListPagination from "@/components/common/ListPagination";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
-import RunParticipationButton from "@/components/common/RunParticipationButton";
+import RunParticipationAction from "@/components/crew/RunParticipationAction";
 import { Button } from "@/components/ui/button";
 import { CREWS, CREW_RUNS } from "@/data/crews";
 import { runDateFormatter, timeFormatter } from "@/lib/date";
@@ -157,21 +157,11 @@ export default function CrewRunsPage() {
                     </span>
                   </p>
                   {isUpcoming && (
-                    <>
-                      <RunParticipationButton
-                        disabled
-                        className="mt-5"
-                        aria-describedby={`run-${run.id}-description`}
-                      >
-                        참여 신청
-                      </RunParticipationButton>
-                      <p
-                        id={`run-${run.id}-description`}
-                        className="text-app-subtext mt-2 text-xs"
-                      >
-                        참여 신청 기능은 준비 중입니다.
-                      </p>
-                    </>
+                    <RunParticipationAction
+                      crew={crew}
+                      run={run}
+                      className="mt-5"
+                    />
                   )}
                   <div className="border-app-border mt-4 border-t pt-4">
                     <ViewMoreButton

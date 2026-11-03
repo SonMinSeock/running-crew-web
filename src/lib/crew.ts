@@ -19,13 +19,13 @@ export function getUpcomingCrewRuns(runs: CrewRun[], now: number) {
 
 // 실제 권한과 별개로 화면에서 표시할 가입 UI 샘플 상태를 정의한다.
 export type CrewMembershipUiState =
-  "owned" | "joined" | "pending" | "not-joined";
+  "OWNED" | "JOINED" | "PENDING" | "NOT_JOINED";
 
 // 기존 가입 여부와 샘플 ID를 조합해 목록·상세에 동일한 상태를 제공한다.
 export function getCrewMembershipUiState(crew: Crew): CrewMembershipUiState {
-  if (crew.id === OWNED_CREW_SAMPLE_ID) return "owned";
-  if (crew.isJoined) return "joined";
-  if (crew.id === CREW_JOIN_PENDING_SAMPLE_ID) return "pending";
+  if (crew.id === OWNED_CREW_SAMPLE_ID) return "OWNED";
+  if (crew.isJoined) return "JOINED";
+  if (crew.id === CREW_JOIN_PENDING_SAMPLE_ID) return "PENDING";
 
-  return "not-joined";
+  return "NOT_JOINED";
 }
