@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { Pencil } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import RunParticipationButton from "@/components/common/RunParticipationButton";
+import RunParticipationAction from "@/components/crew/RunParticipationAction";
 import RunDetailInfo from "@/components/crew/RunDetailInfo";
 import RunDetailGuide from "@/components/crew/RunDetailGuide";
 import { CREWS, CREW_RUNS, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
@@ -62,24 +62,7 @@ export default function CrewRunDetailPage() {
         description={run.description}
         meetingGuide={run.meetingGuide}
       />
-      <div>
-        <RunParticipationButton
-          disabled
-          aria-describedby={
-            isUpcoming ? "run-detail-action-description" : undefined
-          }
-        >
-          {isUpcoming ? "참여 신청" : "종료된 러닝"}
-        </RunParticipationButton>
-        {isUpcoming && (
-          <p
-            id="run-detail-action-description"
-            className="text-app-subtext mt-2 text-xs"
-          >
-            참여 신청 기능은 준비 중입니다.
-          </p>
-        )}
-      </div>
+      <RunParticipationAction crew={crew} run={run} />
     </div>
   );
 }
