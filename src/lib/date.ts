@@ -2,6 +2,18 @@
  * 화면 표시용 날짜·시간 포맷터와 일정 폼의 한국 시간 초기값 변환 함수를 제공한다.
  */
 
+const seoulDateFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+// 기기 시간대와 관계없이 두 시각이 한국 기준 같은 날짜인지 판별한다.
+export function isSameSeoulDate(first: Date, second: Date) {
+  return seoulDateFormatter.format(first) === seoulDateFormatter.format(second);
+}
+
 // 기기 시간대와 관계없이 한국 시간을 사용하고, 활동·공지 목록에 월·일을 표시한다.
 export const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
   timeZone: "Asia/Seoul",
