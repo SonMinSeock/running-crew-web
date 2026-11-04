@@ -3,6 +3,7 @@
  */
 import { useRef, useState } from "react";
 import { MessageCircle, UserRound } from "lucide-react";
+import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import FeedCommentForm from "./FeedCommentForm";
 import { runDateTimeFormatter } from "@/lib/date";
@@ -130,27 +131,56 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
     replyButtons.current.get(id)?.focus();
   };
 
-  const renderEditButton = (comment: FeedComment) => {
+  const renderCommentActions = (comment: FeedComment) => {
     if (comment.id !== firstCommentId && comment.id !== firstReplyId)
       return null;
 
-    const targetLabel = comment.parentId === null ? "댓글" : "대댓글";
+    const isReply = comment.parentId !== null;
+    const targetLabel = isReply ? "대댓글" : "댓글";
 
     return (
-      <Button
-        type="button"
-        variant="link"
-        aria-label={`${comment.nickname} 님의 ${targetLabel} 수정`}
-        aria-expanded={editingId === comment.id}
-        ref={(element) => {
-          if (element) editButtons.current.set(comment.id, element);
-          else editButtons.current.delete(comment.id);
-        }}
-        onClick={() => setEditingId(comment.id)}
-        className="text-app-accent mt-1 cursor-pointer px-0"
-      >
-        수정
-      </Button>
+      <>
+        <Button
+          type="button"
+          variant="link"
+          aria-label={`${comment.nickname} 님의 ${targetLabel} 수정`}
+          aria-expanded={editingId === comment.id}
+          ref={(element) => {
+            if (element) editButtons.current.set(comment.id, element);
+            else editButtons.current.delete(comment.id);
+          }}
+          onClick={() => setEditingId(comment.id)}
+          className="text-app-accent mt-1 cursor-pointer px-0"
+        >
+          수정
+        </Button>
+        {isOpen && (
+          <DeleteConfirmationDialog
+            title={isReply ? "대댓글을 삭제할까요?" : "댓글을 삭제할까요?"}
+            trigger={
+              <Button
+                type="button"
+                variant="link"
+                aria-label={`${comment.nickname} 님의 ${targetLabel} 삭제`}
+                className="text-app-error mt-1 cursor-pointer px-0"
+              >
+                삭제
+              </Button>
+            }
+          >
+            <p className="font-bold break-words">{comment.nickname}</p>
+            <time
+              dateTime={comment.createdAt}
+              className="text-app-subtext mt-2 block text-sm"
+            >
+              {runDateTimeFormatter.format(new Date(comment.createdAt))}
+            </time>
+            <p className="mt-3 line-clamp-3 text-sm leading-relaxed break-words">
+              {comment.content}
+            </p>
+          </DeleteConfirmationDialog>
+        )}
+      </>
     );
   };
 
@@ -238,7 +268,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                   >
                     답글
                   </Button>
-                  {renderEditButton(comment)}
+                  {renderCommentActions(comment)}
                 </div>
                 {comments.some((reply) => reply.parentId === comment.id) && (
                   <ul
@@ -250,7 +280,9 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                       .map((reply) => (
                         <li key={reply.id} className="min-w-0">
                           {commentBody(reply)}
-                          {renderEditButton(reply)}
+                          <div className="flex flex-wrap items-center gap-x-3">
+                            {renderCommentActions(reply)}
+                          </div>
                         </li>
                       ))}
                   </ul>
