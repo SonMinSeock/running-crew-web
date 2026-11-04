@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import FeedCommentForm from "./FeedCommentForm";
 import { runDateTimeFormatter } from "@/lib/date";
 
+const FEED_COMMENT_MANAGEMENT_SAMPLE_ACTIVITY_ID = 1;
+
 interface FeedComment {
   id: string;
   parentId: string | null;
@@ -77,8 +79,24 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
   const [message, setMessage] = useState(initial.error);
   const [isOpen, setIsOpen] = useState(false);
   const [replyId, setReplyId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const replyButtons = useRef(new Map<string, HTMLButtonElement>());
+  const editButtons = useRef(new Map<string, HTMLButtonElement>());
   const panelId = `feed-comments-${activityId}`;
+  const topLevelComments = comments.filter(
+    (comment) => comment.parentId === null,
+  );
+  const isSampleActivity =
+    activityId === FEED_COMMENT_MANAGEMENT_SAMPLE_ACTIVITY_ID;
+  const firstCommentId = isSampleActivity ? topLevelComments[0]?.id : undefined;
+  const firstParentWithReplies = isSampleActivity
+    ? topLevelComments.find((comment) =>
+        comments.some((reply) => reply.parentId === comment.id),
+      )
+    : undefined;
+  const firstReplyId = firstParentWithReplies
+    ? comments.find((reply) => reply.parentId === firstParentWithReplies.id)?.id
+    : undefined;
 
   const addComment = (content: string, parentId: string | null = null) => {
     if (
@@ -112,6 +130,30 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
     replyButtons.current.get(id)?.focus();
   };
 
+  const renderEditButton = (comment: FeedComment) => {
+    if (comment.id !== firstCommentId && comment.id !== firstReplyId)
+      return null;
+
+    const targetLabel = comment.parentId === null ? "댓글" : "대댓글";
+
+    return (
+      <Button
+        type="button"
+        variant="link"
+        aria-label={`${comment.nickname} 님의 ${targetLabel} 수정`}
+        aria-expanded={editingId === comment.id}
+        ref={(element) => {
+          if (element) editButtons.current.set(comment.id, element);
+          else editButtons.current.delete(comment.id);
+        }}
+        onClick={() => setEditingId(comment.id)}
+        className="text-app-accent mt-1 cursor-pointer px-0"
+      >
+        수정
+      </Button>
+    );
+  };
+
   const commentBody = (comment: FeedComment) => (
     <div className="flex items-start gap-3">
       <div
@@ -130,9 +172,22 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
             {runDateTimeFormatter.format(new Date(comment.createdAt))}
           </time>
         </div>
-        <p className="mt-2 text-sm leading-relaxed break-words whitespace-pre-wrap">
-          {comment.content}
-        </p>
+        {editingId === comment.id ? (
+          <FeedCommentForm
+            key={comment.id}
+            mode="edit"
+            initialContent={comment.content}
+            isReply={comment.parentId !== null}
+            onCancel={() => {
+              setEditingId(null);
+              editButtons.current.get(comment.id)?.focus();
+            }}
+          />
+        ) : (
+          <p className="mt-2 text-sm leading-relaxed break-words whitespace-pre-wrap">
+            {comment.content}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -144,7 +199,10 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
         variant="ghost"
         aria-expanded={isOpen}
         aria-controls={panelId}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (isOpen) setEditingId(null);
+          setIsOpen(!isOpen);
+        }}
         className="text-app-subtext hover:text-app-accent max-w-full gap-2 rounded-xl"
       >
         <MessageCircle aria-hidden="true" className="size-4" />
@@ -157,11 +215,10 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
           </p>
         ) : (
           <ul className="divide-app-border mt-3 divide-y">
-            {comments
-              .filter((comment) => comment.parentId === null)
-              .map((comment) => (
-                <li key={comment.id} className="min-w-0 py-4">
-                  {commentBody(comment)}
+            {topLevelComments.map((comment) => (
+              <li key={comment.id} className="min-w-0 py-4">
+                {commentBody(comment)}
+                <div className="flex flex-wrap items-center gap-x-3">
                   <Button
                     type="button"
                     variant="link"
@@ -181,33 +238,36 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                   >
                     답글
                   </Button>
-                  {comments.some((reply) => reply.parentId === comment.id) && (
-                    <ul
-                      aria-label={`${comment.nickname} 님의 댓글에 달린 답글`}
-                      className="border-app-border mt-2 space-y-4 border-l-2 pl-3 sm:pl-4"
-                    >
-                      {comments
-                        .filter((reply) => reply.parentId === comment.id)
-                        .map((reply) => (
-                          <li key={reply.id} className="min-w-0">
-                            {commentBody(reply)}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
-                  {replyId === comment.id && (
-                    <FeedCommentForm
-                      key={comment.id}
-                      replyTo={comment.nickname}
-                      onSubmit={(content) => {
-                        addComment(content, comment.id);
-                        closeReply(comment.id);
-                      }}
-                      onCancel={() => closeReply(comment.id)}
-                    />
-                  )}
-                </li>
-              ))}
+                  {renderEditButton(comment)}
+                </div>
+                {comments.some((reply) => reply.parentId === comment.id) && (
+                  <ul
+                    aria-label={`${comment.nickname} 님의 댓글에 달린 답글`}
+                    className="border-app-border mt-2 space-y-4 border-l-2 pl-3 sm:pl-4"
+                  >
+                    {comments
+                      .filter((reply) => reply.parentId === comment.id)
+                      .map((reply) => (
+                        <li key={reply.id} className="min-w-0">
+                          {commentBody(reply)}
+                          {renderEditButton(reply)}
+                        </li>
+                      ))}
+                  </ul>
+                )}
+                {replyId === comment.id && (
+                  <FeedCommentForm
+                    key={comment.id}
+                    replyTo={comment.nickname}
+                    onSubmit={(content) => {
+                      addComment(content, comment.id);
+                      closeReply(comment.id);
+                    }}
+                    onCancel={() => closeReply(comment.id)}
+                  />
+                )}
+              </li>
+            ))}
           </ul>
         )}
         <FeedCommentForm onSubmit={(content) => addComment(content)} />
