@@ -2,13 +2,15 @@
  * 크루와 일정 ID를 확인해 러닝 상세 UI 또는 잘못된 접근 안내를 구성한다.
  */
 import { useEffect } from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import RunParticipationAction from "@/components/crew/RunParticipationAction";
 import RunDetailInfo from "@/components/crew/RunDetailInfo";
 import RunDetailGuide from "@/components/crew/RunDetailGuide";
 import { CREWS, CREW_RUNS, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
+import { runDetailDateFormatter, timeFormatter } from "@/lib/date";
 
 export default function CrewRunDetailPage() {
   const { crewId, runId } = useParams();
@@ -42,19 +44,51 @@ export default function CrewRunDetailPage() {
   }
 
   const isUpcoming = Date.parse(run.startsAt) > Date.now();
-  // 실제 편집 권한과 별개로 수정 UI 샘플의 진입 버튼 표시 여부를 결정한다.
-  const isEditSample = crew.id === OWNED_CREW_SAMPLE_ID;
+  // 크루 ID를 기준으로 편집·삭제 UI 샘플의 진입 버튼을 표시한다.
+  const isManagementUiSample = crew.id === OWNED_CREW_SAMPLE_ID;
 
   return (
     <div className="mx-auto max-w-2xl space-y-5">
-      {isEditSample && (
-        <div className="flex justify-end">
-          <Button asChild variant="ghost" className="bg-app-card rounded-full">
+      {isManagementUiSample && (
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            asChild
+            variant="ghost"
+            className="bg-app-card h-10 rounded-full px-4"
+          >
             <Link to={`/crews/${crew.id}/runs/${run.id}/edit`}>
               <Pencil aria-hidden="true" className="size-4" />
               편집
             </Link>
           </Button>
+          <DeleteConfirmationDialog
+            title="러닝 일정을 삭제할까요?"
+            trigger={
+              <Button
+                type="button"
+                variant="outline"
+                aria-label={`${run.title} 삭제`}
+                className="bg-app-error/10 border-app-error/30 text-app-error h-10 cursor-pointer rounded-full px-4"
+              >
+                <Trash2 aria-hidden="true" className="size-4" />
+                삭제
+              </Button>
+            }
+          >
+            <p className="font-bold break-words">{run.title}</p>
+            <p className="text-app-subtext mt-2 text-sm break-words">
+              {crew.name}
+            </p>
+            <div className="text-app-subtext mt-2 space-y-1 text-sm">
+              <p>
+                <time dateTime={run.startsAt}>
+                  {runDetailDateFormatter.format(new Date(run.startsAt))}{" "}
+                  {timeFormatter.format(new Date(run.startsAt))}
+                </time>
+              </p>
+              <p className="break-words">{run.location}</p>
+            </div>
+          </DeleteConfirmationDialog>
         </div>
       )}
       <RunDetailInfo crew={crew} run={run} isUpcoming={isUpcoming} />
