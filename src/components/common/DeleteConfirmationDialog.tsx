@@ -32,7 +32,7 @@ export default function DeleteConfirmationDialog({
   return (
     <AlertDialog key={key}>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent className="bg-app-card text-app-text ring-app-border max-h-[calc(100dvh-3rem)] w-[calc(100%-3rem)] gap-5 overflow-y-auto rounded-3xl p-6 motion-reduce:animate-none data-[size=default]:max-w-md data-[size=default]:sm:max-w-md">
+      <AlertDialogContent className="bg-app-card text-app-text ring-app-border max-h-[calc(100dvh-3rem)] w-[calc(100%-3rem)] gap-5 overflow-y-auto rounded-3xl p-6 data-[size=default]:max-w-md motion-reduce:animate-none data-[size=default]:sm:max-w-md">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl font-bold break-words">
             {title}
@@ -46,12 +46,12 @@ export default function DeleteConfirmationDialog({
         </AlertDialogDescription>
 
         <AlertDialogFooter className="m-0 flex-col rounded-none border-0 bg-transparent p-0 sm:flex-row">
-          <AlertDialogCancel className="bg-app-bg border-app-border text-app-text focus-visible:ring-app-accent h-12 rounded-2xl px-5">
+          <AlertDialogCancel className="bg-app-bg border-app-border text-app-text focus-visible:ring-app-accent h-12 cursor-pointer rounded-2xl px-5">
             닫기
           </AlertDialogCancel>
           <AlertDialogAction
             disabled
-            className="bg-app-error h-12 rounded-2xl px-5 text-white"
+            className="bg-app-error h-12 cursor-pointer rounded-2xl px-5 text-white disabled:pointer-events-auto"
           >
             삭제
           </AlertDialogAction>
