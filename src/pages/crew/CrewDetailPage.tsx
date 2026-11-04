@@ -1,8 +1,9 @@
 /**
  * 크루 기본 정보와 일정·공지·활동·멤버 미리보기를 구성한다.
  */
-import { Pencil, UsersRound } from "lucide-react";
+import { Pencil, Trash2, UsersRound } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
+import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import { CREWS, OWNED_CREW_SAMPLE_ID } from "@/data/crews";
 import NextCrewRun from "@/components/crew/NextCrewRun";
@@ -66,16 +67,45 @@ export default function CrewDetailPage() {
             </p>
           </div>
           {crew.id === OWNED_CREW_SAMPLE_ID && (
-            <Button
-              asChild
-              variant="ghost"
-              className="bg-app-text/5 rounded-full"
-            >
-              <Link to={`/crews/${crew.id}/edit`}>
-                <Pencil aria-hidden="true" className="size-4" />
-                편집
-              </Link>
-            </Button>
+            <div className="ml-auto flex shrink-0 items-center gap-2">
+              <Button
+                asChild
+                variant="ghost"
+                className="bg-app-text/5 h-10 rounded-full px-4"
+              >
+                <Link to={`/crews/${crew.id}/edit`}>
+                  <Pencil aria-hidden="true" className="size-4" />
+                  편집
+                </Link>
+              </Button>
+
+              <DeleteConfirmationDialog
+                title="크루를 삭제할까요?"
+                trigger={
+                  <Button
+                    type="button"
+                    variant="outline"
+                    aria-label={`${crew.name} 삭제`}
+                    className="bg-app-error/10 border-app-error/30 text-app-error h-10 cursor-pointer rounded-full px-4"
+                  >
+                    <Trash2 aria-hidden="true" className="size-4" />
+                    삭제
+                  </Button>
+                }
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <span aria-hidden="true" className="shrink-0 text-3xl">
+                    {crew.emoji}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-bold break-words">{crew.name}</p>
+                    <p className="text-app-subtext mt-2 text-sm break-words">
+                      {crew.region} · {crew.memberCount}명
+                    </p>
+                  </div>
+                </div>
+              </DeleteConfirmationDialog>
+            </div>
           )}
         </div>
         <p className="text-app-subtext mt-4 text-sm leading-relaxed">

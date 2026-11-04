@@ -1,10 +1,11 @@
 /**
- * 피드 게시글과 연결된 크루를 확인하고 상세 콘텐츠·편집 진입·댓글을 표시한다.
+ * 피드 게시글과 연결된 크루를 확인하고 상세 콘텐츠·편집·삭제 진입·댓글을 표시한다.
  */
 import { useEffect } from "react";
-import { Pencil } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
 import FeedPostContent from "@/components/feed/FeedPostContent";
 import FeedComments from "@/components/feed/FeedComments";
@@ -44,8 +45,8 @@ export default function FeedDetailPage() {
     );
   }
 
-  // 실제 소유권·편집 권한과 별개로 편집 UI 샘플의 진입 버튼을 표시한다.
-  const isEditSample = activity.id === FEED_EDIT_SAMPLE_ACTIVITY_ID;
+  // 활동 ID를 기준으로 편집·삭제 UI 샘플의 진입 버튼을 표시한다.
+  const isManagementUiSample = activity.id === FEED_EDIT_SAMPLE_ACTIVITY_ID;
 
   return (
     <section
@@ -55,14 +56,40 @@ export default function FeedDetailPage() {
       <h1 id="feed-detail-title" className="sr-only">
         피드 상세
       </h1>
-      {isEditSample && (
-        <div className="flex justify-end">
-          <Button asChild variant="ghost" className="bg-app-card rounded-full">
+      {isManagementUiSample && (
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            asChild
+            variant="ghost"
+            className="bg-app-card h-10 rounded-full px-4"
+          >
             <Link to={`/feed/${activity.id}/edit`}>
               <Pencil aria-hidden="true" className="size-4" />
               편집
             </Link>
           </Button>
+          <DeleteConfirmationDialog
+            title="게시글을 삭제할까요?"
+            trigger={
+              <Button
+                type="button"
+                variant="outline"
+                aria-label="게시글 삭제"
+                className="bg-app-error/10 border-app-error/30 text-app-error h-10 cursor-pointer rounded-full px-4"
+              >
+                <Trash2 aria-hidden="true" className="size-4" />
+                삭제
+              </Button>
+            }
+          >
+            <p className="font-bold break-words">{activity.nickname}</p>
+            <p className="text-app-subtext mt-2 text-sm break-words">
+              {crew.name}
+            </p>
+            <p className="mt-3 line-clamp-3 text-sm leading-relaxed break-words">
+              {activity.content}
+            </p>
+          </DeleteConfirmationDialog>
         </div>
       )}
       <article
