@@ -99,6 +99,15 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
     ? comments.find((reply) => reply.parentId === firstParentWithReplies.id)?.id
     : undefined;
 
+  // 샘플에서 벗어난 수정 폼을 닫고 초안을 초기화한다.
+  if (
+    editingId !== null &&
+    editingId !== firstCommentId &&
+    editingId !== firstReplyId
+  ) {
+    setEditingId(null);
+  }
+
   const addComment = (content: string, parentId: string | null = null) => {
     if (
       parentId &&
