@@ -41,9 +41,9 @@ export default function RecentCrewActivities({
       </div>
       {activities.length > 0 ? (
         <>
-          <ul className="divide-app-border mt-4 divide-y">
+          <ul className="divide-app-border mt-3 divide-y">
             {activities.map((activity) => (
-              <li key={activity.id} className="flex items-center gap-3 py-4">
+              <li key={activity.id} className="flex items-center gap-3 py-2">
                 <div
                   aria-hidden="true"
                   className="bg-app-text/5 flex size-10 shrink-0 items-center justify-center rounded-full text-xl"

@@ -115,29 +115,46 @@ export default function CrewMembersPage() {
         <div className="bg-app-card mt-4 rounded-3xl p-5 md:p-6">
           <ul className="divide-app-border divide-y">
             {visibleMembers.map((member) => (
-              <li key={member.id} className="flex items-center gap-3 py-4">
-                <div
-                  aria-hidden="true"
-                  className="bg-app-text/5 flex size-10 shrink-0 items-center justify-center rounded-full text-xl"
+              <li key={member.id}>
+                <Link
+                  to={`/profile?memberId=${member.id}`}
+                  aria-label={`${member.nickname} 프로필 보기`}
+                  aria-describedby={
+                    member.isLeader
+                      ? `member-list-role-${member.id} member-list-distance-${member.id}`
+                      : `member-list-distance-${member.id}`
+                  }
+                  className="focus-visible:outline-app-accent relative isolate -mx-3 flex items-center gap-3 rounded-xl px-3 py-2 before:pointer-events-none before:absolute before:inset-x-0 before:inset-y-1 before:-z-10 before:rounded-xl hover:before:bg-app-text/5 focus-visible:outline-2 focus-visible:-outline-offset-2"
                 >
-                  {member.emoji}
-                </div>
+                  <div
+                    aria-hidden="true"
+                    className="bg-app-text/5 flex size-10 shrink-0 items-center justify-center rounded-full text-xl"
+                  >
+                    {member.emoji}
+                  </div>
 
-                <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
-                  <p className="text-sm font-bold break-words">
-                    {member.nickname}
+                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+                    <p className="text-sm font-bold break-words">
+                      {member.nickname}
+                    </p>
+                    {member.isLeader && (
+                      <span
+                        id={`member-list-role-${member.id}`}
+                        className="bg-app-accent/10 text-app-accent rounded px-2 py-1 text-xs font-semibold"
+                      >
+                        크루장
+                      </span>
+                    )}
+                  </div>
+
+                  <p
+                    id={`member-list-distance-${member.id}`}
+                    className="text-app-subtext shrink-0 text-sm"
+                  >
+                    <span className="sr-only">크루 가입 후 누적 거리 </span>
+                    {member.distanceKm}km
                   </p>
-                  {member.isLeader && (
-                    <span className="bg-app-accent/10 text-app-accent rounded px-2 py-1 text-xs font-semibold">
-                      크루장
-                    </span>
-                  )}
-                </div>
-
-                <p className="text-app-subtext shrink-0 text-sm">
-                  <span className="sr-only">크루 가입 후 누적 거리 </span>
-                  {member.distanceKm}km
-                </p>
+                </Link>
               </li>
             ))}
           </ul>

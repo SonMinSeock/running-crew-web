@@ -111,7 +111,7 @@ export default function CrewActivitiesPage() {
         <div className="bg-app-card mt-4 rounded-3xl p-5 md:p-6">
           <ul className="divide-app-border divide-y">
             {visibleActivities.map((activity) => (
-              <li key={activity.id} className="flex items-center gap-3 py-4">
+              <li key={activity.id} className="flex items-center gap-3 py-2">
                 <div
                   aria-hidden="true"
                   className="bg-app-text/5 flex size-10 shrink-0 items-center justify-center rounded-full text-xl"
