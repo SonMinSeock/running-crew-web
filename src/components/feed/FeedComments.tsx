@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import FeedCommentForm from "./FeedCommentForm";
-import FeedReportDialog from "./FeedReportDialog";
+import ReportDialog from "@/components/common/ReportDialog";
 import { runDateTimeFormatter } from "@/lib/date";
 
 const FEED_COMMENT_MANAGEMENT_SAMPLE_ACTIVITY_ID = 1;
@@ -182,7 +182,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
     const targetLabel = comment.parentId === null ? "댓글" : "대댓글";
 
     return (
-      <FeedReportDialog
+      <ReportDialog
         key={`${locationKey}-${comment.id}`}
         targetLabel={targetLabel}
         author={comment.nickname}

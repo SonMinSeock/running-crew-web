@@ -1,5 +1,5 @@
 /**
- * 피드 신고 대상 요약과 사유 선택 UI를 표시한다.
+ * 신고 대상 요약과 사유 선택 UI를 표시한다.
  * 신고 접수 기능이 준비될 때까지 확정 버튼은 비활성화한다.
  */
 import { useId, useRef, useState, type ReactElement } from "react";
@@ -17,19 +17,23 @@ import {
 
 const REPORT_REASONS = ["스팸·광고", "욕설·괴롭힘", "개인정보 노출", "기타"];
 
-interface FeedReportDialogProps {
-  targetLabel: "게시글" | "댓글" | "대댓글";
+interface ReportDialogProps {
+  targetLabel: "게시글" | "댓글" | "대댓글" | "멤버";
   author: string;
-  content: string;
+  avatar?: string;
+  content?: string;
+  reasons?: readonly string[];
   trigger: ReactElement;
 }
 
-export default function FeedReportDialog({
+export default function ReportDialog({
   targetLabel,
   author,
+  avatar,
   content,
+  reasons = REPORT_REASONS,
   trigger,
-}: FeedReportDialogProps) {
+}: ReportDialogProps) {
   const groupName = useId();
   const firstReasonRef = useRef<HTMLInputElement>(null);
   const [reason, setReason] = useState("");
@@ -60,15 +64,24 @@ export default function FeedReportDialog({
         </DialogHeader>
 
         <div className="bg-app-text/5 min-w-0 rounded-2xl p-4">
-          <p className="font-bold break-words">{author}</p>
-          <p className="mt-2 line-clamp-3 text-sm break-words whitespace-pre-wrap">
-            {content}
-          </p>
+          <div className="flex items-center gap-3">
+            {avatar && (
+              <span aria-hidden="true" className="text-xl">
+                {avatar}
+              </span>
+            )}
+            <p className="min-w-0 font-bold break-words">{author}</p>
+          </div>
+          {content && (
+            <p className="mt-2 line-clamp-3 text-sm break-words whitespace-pre-wrap">
+              {content}
+            </p>
+          )}
         </div>
 
         <fieldset className="min-w-0 space-y-2">
           <legend className="mb-2 font-semibold">신고 사유</legend>
-          {REPORT_REASONS.map((option, index) => (
+          {reasons.map((option, index) => (
             <label
               key={option}
               className="border-app-border flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2"

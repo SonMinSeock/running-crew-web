@@ -14,7 +14,7 @@ import {
   CREW_ACTIVITIES,
   FEED_EDIT_SAMPLE_ACTIVITY_ID,
 } from "@/data/crews";
-import FeedReportDialog from "@/components/feed/FeedReportDialog";
+import ReportDialog from "@/components/common/ReportDialog";
 
 const FEED_REPORT_SAMPLE_ACTIVITY_ID = 2;
 
@@ -98,7 +98,7 @@ export default function FeedDetailPage() {
       )}
       {activity.id === FEED_REPORT_SAMPLE_ACTIVITY_ID && (
         <div className="flex justify-end">
-          <FeedReportDialog
+          <ReportDialog
             key={`${locationKey}-${activity.id}`}
             targetLabel="게시글"
             author={activity.nickname}
