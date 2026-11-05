@@ -4,6 +4,7 @@
 import { Camera, MapPin, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import LogoutConfirmationDialog from "@/components/profile/LogoutConfirmationDialog";
 import type { UserProfile } from "@/data/profile";
 
 interface ProfileOverviewProps {
@@ -56,12 +57,15 @@ export default function ProfileOverview({
             <span className="min-w-0 break-words">{profile.region}</span>
           </p>
         </div>
-        <Button asChild variant="ghost" className="bg-app-card rounded-full">
-          <Link to="/profile/edit">
-            <Pencil aria-hidden="true" className="size-4" />
-            편집
-          </Link>
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button asChild variant="ghost" className="bg-app-card rounded-full">
+            <Link to="/profile/edit">
+              <Pencil aria-hidden="true" className="size-4" />
+              편집
+            </Link>
+          </Button>
+          <LogoutConfirmationDialog />
+        </div>
       </div>
       <p className="text-app-subtext text-sm leading-relaxed break-words whitespace-pre-wrap">
         {profile.bio}
