@@ -313,6 +313,17 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
           {renderCommentActions(comment)}
           {renderReportAction(comment)}
         </div>
+        {replyId === comment.id && (
+          <FeedCommentForm
+            key={comment.id}
+            replyTo={comment.nickname}
+            onSubmit={(content) => {
+              addComment(content, comment.id);
+              closeReply(comment.id);
+            }}
+            onCancel={() => closeReply(comment.id)}
+          />
+        )}
       </div>
     </div>
   );
@@ -328,7 +339,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
           if (isOpen) setEditingId(null);
           setIsOpen(!isOpen);
         }}
-        className="text-app-subtext hover:text-app-accent max-w-full gap-2 rounded-xl"
+        className="text-app-subtext hover:text-app-accent max-w-full cursor-pointer gap-2 rounded-xl"
       >
         <MessageCircle aria-hidden="true" className="size-4" />
         댓글 {comments.length}개 · {isOpen ? "접기" : "보기"}
@@ -356,17 +367,6 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                         </li>
                       ))}
                   </ul>
-                )}
-                {replyId === comment.id && (
-                  <FeedCommentForm
-                    key={comment.id}
-                    replyTo={comment.nickname}
-                    onSubmit={(content) => {
-                      addComment(content, comment.id);
-                      closeReply(comment.id);
-                    }}
-                    onCancel={() => closeReply(comment.id)}
-                  />
                 )}
               </li>
             ))}
