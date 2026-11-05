@@ -288,6 +288,42 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
             {comment.content}
           </p>
         )}
+        <div className="flex flex-wrap items-center gap-x-3 empty:hidden">
+          {comment.parentId === null && (
+            <Button
+              type="button"
+              variant="link"
+              aria-label={`${comment.nickname} 님의 댓글에 답글 작성`}
+              aria-expanded={replyId === comment.id}
+              ref={(element) => {
+                if (element)
+                  replyButtons.current.set(comment.id, element);
+                else replyButtons.current.delete(comment.id);
+              }}
+              onClick={() =>
+                replyId === comment.id
+                  ? closeReply(comment.id)
+                  : setReplyId(comment.id)
+              }
+              className="text-app-accent mt-1 cursor-pointer px-0"
+            >
+              답글
+            </Button>
+          )}
+          {renderCommentActions(comment)}
+          {renderReportAction(comment)}
+        </div>
+        {replyId === comment.id && (
+          <FeedCommentForm
+            key={comment.id}
+            replyTo={comment.nickname}
+            onSubmit={(content) => {
+              addComment(content, comment.id);
+              closeReply(comment.id);
+            }}
+            onCancel={() => closeReply(comment.id)}
+          />
+        )}
       </div>
     </div>
   );
@@ -303,7 +339,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
           if (isOpen) setEditingId(null);
           setIsOpen(!isOpen);
         }}
-        className="text-app-subtext hover:text-app-accent max-w-full gap-2 rounded-xl"
+        className="text-app-subtext hover:text-app-accent max-w-full cursor-pointer gap-2 rounded-xl"
       >
         <MessageCircle aria-hidden="true" className="size-4" />
         댓글 {comments.length}개 · {isOpen ? "접기" : "보기"}
@@ -318,57 +354,19 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
             {topLevelComments.map((comment) => (
               <li key={comment.id} className="min-w-0 py-4">
                 {commentBody(comment)}
-                <div className="flex flex-wrap items-center gap-x-3">
-                  <Button
-                    type="button"
-                    variant="link"
-                    aria-label={`${comment.nickname} 님의 댓글에 답글 작성`}
-                    aria-expanded={replyId === comment.id}
-                    ref={(element) => {
-                      if (element)
-                        replyButtons.current.set(comment.id, element);
-                      else replyButtons.current.delete(comment.id);
-                    }}
-                    onClick={() =>
-                      replyId === comment.id
-                        ? closeReply(comment.id)
-                        : setReplyId(comment.id)
-                    }
-                    className="text-app-accent mt-1 px-0"
-                  >
-                    답글
-                  </Button>
-                  {renderCommentActions(comment)}
-                  {renderReportAction(comment)}
-                </div>
                 {comments.some((reply) => reply.parentId === comment.id) && (
                   <ul
                     aria-label={`${comment.nickname} 님의 댓글에 달린 답글`}
-                    className="border-app-border mt-2 space-y-4 border-l-2 pl-3 sm:pl-4"
+                    className="border-app-border mt-3 space-y-5 border-l-2 pl-3 sm:pl-4"
                   >
                     {comments
                       .filter((reply) => reply.parentId === comment.id)
                       .map((reply) => (
                         <li key={reply.id} className="min-w-0">
                           {commentBody(reply)}
-                          <div className="flex flex-wrap items-center gap-x-3">
-                            {renderCommentActions(reply)}
-                            {renderReportAction(reply)}
-                          </div>
                         </li>
                       ))}
                   </ul>
-                )}
-                {replyId === comment.id && (
-                  <FeedCommentForm
-                    key={comment.id}
-                    replyTo={comment.nickname}
-                    onSubmit={(content) => {
-                      addComment(content, comment.id);
-                      closeReply(comment.id);
-                    }}
-                    onCancel={() => closeReply(comment.id)}
-                  />
                 )}
               </li>
             ))}
