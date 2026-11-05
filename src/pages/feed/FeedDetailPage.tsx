@@ -3,7 +3,7 @@
  */
 import { useEffect } from "react";
 import { Pencil, Trash2 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import ViewMoreButton from "@/components/common/ViewMoreButton";
@@ -14,8 +14,12 @@ import {
   CREW_ACTIVITIES,
   FEED_EDIT_SAMPLE_ACTIVITY_ID,
 } from "@/data/crews";
+import FeedReportDialog from "@/components/feed/FeedReportDialog";
+
+const FEED_REPORT_SAMPLE_ACTIVITY_ID = 2;
 
 export default function FeedDetailPage() {
+  const { key: locationKey } = useLocation();
   const { activityId } = useParams();
   const activity = CREW_ACTIVITIES.find(
     (item) => String(item.id) === activityId,
@@ -90,6 +94,26 @@ export default function FeedDetailPage() {
               {activity.content}
             </p>
           </DeleteConfirmationDialog>
+        </div>
+      )}
+      {activity.id === FEED_REPORT_SAMPLE_ACTIVITY_ID && (
+        <div className="flex justify-end">
+          <FeedReportDialog
+            key={`${locationKey}-${activity.id}`}
+            targetLabel="게시글"
+            author={activity.nickname}
+            content={activity.content}
+            trigger={
+              <Button
+                type="button"
+                variant="ghost"
+                aria-label={`${activity.nickname} 님의 게시글 신고`}
+                className="bg-app-card text-app-subtext h-10 cursor-pointer rounded-full px-4"
+              >
+                신고
+              </Button>
+            }
+          />
         </div>
       )}
       <article
