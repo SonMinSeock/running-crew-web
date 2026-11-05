@@ -14,10 +14,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useLocation } from "react-router-dom";
 
 export default function LogoutConfirmationDialog() {
+  const { key } = useLocation();
+
   return (
-    <AlertDialog>
+    <AlertDialog key={key}>
       <AlertDialogTrigger asChild>
         <Button
           type="button"
