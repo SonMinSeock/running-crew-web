@@ -9,6 +9,7 @@ import type { UserProfile } from "@/data/profile";
 
 interface ProfileOverviewProps {
   profile: UserProfile;
+  isOwnProfile: boolean;
   totalDistance: number;
   runCount: number;
   crewCount: number;
@@ -16,6 +17,7 @@ interface ProfileOverviewProps {
 
 export default function ProfileOverview({
   profile,
+  isOwnProfile,
   totalDistance,
   runCount,
   crewCount,
@@ -34,16 +36,18 @@ export default function ProfileOverview({
           >
             {profile.emoji}
           </div>
-          <Button
-            type="button"
-            size="icon"
-            disabled
-            aria-label="프로필 이미지 변경, 준비 중"
-            aria-describedby="profile-image-description"
-            className="bg-app-accent text-app-bg absolute -right-1 -bottom-1 size-7 rounded-full"
-          >
-            <Camera className="size-4" />
-          </Button>
+          {isOwnProfile && (
+            <Button
+              type="button"
+              size="icon"
+              disabled
+              aria-label="프로필 이미지 변경, 준비 중"
+              aria-describedby="profile-image-description"
+              className="bg-app-accent text-app-bg absolute -right-1 -bottom-1 size-7 rounded-full"
+            >
+              <Camera className="size-4" />
+            </Button>
+          )}
         </div>
         <div className="min-w-0 flex-1 basis-32">
           <h1 id="profile-name" className="text-2xl font-bold break-words">
@@ -57,46 +61,59 @@ export default function ProfileOverview({
             <span className="min-w-0 break-words">{profile.region}</span>
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Button asChild variant="ghost" className="bg-app-card rounded-full">
-            <Link to="/profile/edit">
-              <Pencil aria-hidden="true" className="size-4" />
-              편집
-            </Link>
-          </Button>
-          <LogoutConfirmationDialog />
-        </div>
+        {isOwnProfile && (
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              asChild
+              variant="ghost"
+              className="bg-app-card rounded-full"
+            >
+              <Link to="/profile/edit">
+                <Pencil aria-hidden="true" className="size-4" />
+                편집
+              </Link>
+            </Button>
+            <LogoutConfirmationDialog />
+          </div>
+        )}
       </div>
       <p className="text-app-subtext text-sm leading-relaxed break-words whitespace-pre-wrap">
         {profile.bio}
       </p>
-      <p id="profile-image-description" className="text-app-subtext text-xs">
-        프로필 이미지 변경 기능은 준비 중입니다.
-      </p>
-      <dl className="grid grid-cols-3 gap-2 sm:gap-4">
-        {[
-          {
-            value: totalDistance.toLocaleString("ko-KR", {
-              maximumFractionDigits: 1,
-            }),
-            label: "km 총 거리",
-          },
-          { value: runCount, label: "회 총 러닝" },
-          { value: crewCount, label: "개 가입한 크루" },
-        ].map((item) => (
-          <div
-            key={item.label}
-            className="bg-app-card flex min-w-0 flex-col-reverse gap-1 rounded-2xl px-2 py-4 text-center sm:px-4"
+      {isOwnProfile && (
+        <>
+          <p
+            id="profile-image-description"
+            className="text-app-subtext text-xs"
           >
-            <dt className="text-app-subtext text-xs sm:text-sm">
-              {item.label}
-            </dt>
-            <dd className="text-xl font-bold break-words sm:text-3xl">
-              {item.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
+            프로필 이미지 변경 기능은 준비 중입니다.
+          </p>
+          <dl className="grid grid-cols-3 gap-2 sm:gap-4">
+            {[
+              {
+                value: totalDistance.toLocaleString("ko-KR", {
+                  maximumFractionDigits: 1,
+                }),
+                label: "km 총 거리",
+              },
+              { value: runCount, label: "회 총 러닝" },
+              { value: crewCount, label: "개 가입한 크루" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="bg-app-card flex min-w-0 flex-col-reverse gap-1 rounded-2xl px-2 py-4 text-center sm:px-4"
+              >
+                <dt className="text-app-subtext text-xs sm:text-sm">
+                  {item.label}
+                </dt>
+                <dd className="text-xl font-bold break-words sm:text-3xl">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </>
+      )}
     </section>
   );
 }

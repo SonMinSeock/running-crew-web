@@ -7,11 +7,17 @@ import ProfileOverview from "@/components/profile/ProfileOverview";
 import ProfileStatistics from "@/components/profile/ProfileStatistics";
 import ProfileActivities from "@/components/profile/ProfileActivities";
 import { USER_PROFILE, PERSONAL_RUNS } from "@/data/profile";
-import { CREWS } from "@/data/crews";
+import { CREWS, CREW_MEMBERS } from "@/data/crews";
 import { cn } from "@/lib/utils";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function ProfilePage() {
   const [view, setView] = useState<"statistics" | "activities">("statistics");
+  const [searchParams] = useSearchParams();
+  const memberId = searchParams.get("memberId");
+  const isOwnProfile = memberId === null;
+  const member = CREW_MEMBERS.find((item) => String(item.id) === memberId);
+
   const now = Date.now();
   // 미래 기록을 제외한 동일한 개인 데이터로 모든 통계를 계산한다.
   const runs = PERSONAL_RUNS.filter(
@@ -24,12 +30,41 @@ export default function ProfilePage() {
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, []);
+  }, [memberId]);
+
+  if (!isOwnProfile) {
+    if (!member) {
+      return (
+        <section className="py-12 text-center">
+          <h1 className="text-xl font-bold">프로필을 찾을 수 없습니다.</h1>
+          <Button asChild variant="link" className="text-app-accent mt-4">
+            <Link to="/crews">크루 목록으로 이동</Link>
+          </Button>
+        </section>
+      );
+    }
+
+    return (
+      <ProfileOverview
+        profile={{
+          nickname: member.nickname,
+          emoji: member.emoji,
+          region: "활동 지역 미등록",
+          bio: "등록된 자기소개가 없습니다.",
+        }}
+        isOwnProfile={false}
+        totalDistance={0}
+        runCount={0}
+        crewCount={0}
+      />
+    );
+  }
 
   return (
     <div className="space-y-6">
       <ProfileOverview
         profile={USER_PROFILE}
+        isOwnProfile={true}
         totalDistance={totalDistance}
         runCount={runs.length}
         crewCount={crewCount}
