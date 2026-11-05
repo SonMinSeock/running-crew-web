@@ -1,6 +1,7 @@
 /**
  * 프로필 커버와 기본 정보, 편집 링크 및 러닝 요약을 표시한다.
  */
+import type { ReactNode } from "react";
 import { Camera, MapPin, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import type { UserProfile } from "@/data/profile";
 interface ProfileOverviewProps {
   profile: UserProfile;
   isOwnProfile: boolean;
+  memberAction?: ReactNode;
   totalDistance: number;
   runCount: number;
   crewCount: number;
@@ -18,6 +20,7 @@ interface ProfileOverviewProps {
 export default function ProfileOverview({
   profile,
   isOwnProfile,
+  memberAction,
   totalDistance,
   runCount,
   crewCount,
@@ -61,7 +64,7 @@ export default function ProfileOverview({
             <span className="min-w-0 break-words">{profile.region}</span>
           </p>
         </div>
-        {isOwnProfile && (
+        {isOwnProfile ? (
           <div className="flex shrink-0 items-center gap-2">
             <Button
               asChild
@@ -75,6 +78,8 @@ export default function ProfileOverview({
             </Button>
             <LogoutConfirmationDialog />
           </div>
+        ) : (
+          memberAction
         )}
       </div>
       <p className="text-app-subtext text-sm leading-relaxed break-words whitespace-pre-wrap">

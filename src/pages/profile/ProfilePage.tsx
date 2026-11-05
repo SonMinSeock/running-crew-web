@@ -2,6 +2,8 @@
  * 프로필 정보와 개인 러닝 통계·활동 화면을 구성한다.
  */
 import { useEffect, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import ReportDialog from "@/components/common/ReportDialog";
 import { Button } from "@/components/ui/button";
 import ProfileOverview from "@/components/profile/ProfileOverview";
 import ProfileStatistics from "@/components/profile/ProfileStatistics";
@@ -9,11 +11,11 @@ import ProfileActivities from "@/components/profile/ProfileActivities";
 import { USER_PROFILE, PERSONAL_RUNS } from "@/data/profile";
 import { CREWS, CREW_MEMBERS } from "@/data/crews";
 import { cn } from "@/lib/utils";
-import { Link, useSearchParams } from "react-router-dom";
 
 export default function ProfilePage() {
   const [view, setView] = useState<"statistics" | "activities">("statistics");
   const [searchParams] = useSearchParams();
+  const { key: locationKey } = useLocation();
   const memberId = searchParams.get("memberId");
   const isOwnProfile = memberId === null;
   const member = CREW_MEMBERS.find((item) => String(item.id) === memberId);
@@ -53,6 +55,25 @@ export default function ProfilePage() {
           bio: "등록된 자기소개가 없습니다.",
         }}
         isOwnProfile={false}
+        memberAction={
+          <ReportDialog
+            key={`${locationKey}-${member.id}`}
+            targetLabel="멤버"
+            author={member.nickname}
+            avatar={member.emoji}
+            reasons={["스팸·광고", "욕설·괴롭힘", "사칭", "기타"]}
+            trigger={
+              <Button
+                type="button"
+                variant="ghost"
+                aria-label={`${member.nickname} 님 신고`}
+                className="bg-app-card text-app-subtext shrink-0 cursor-pointer rounded-full"
+              >
+                신고
+              </Button>
+            }
+          />
+        }
         totalDistance={0}
         runCount={0}
         crewCount={0}
