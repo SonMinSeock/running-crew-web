@@ -36,16 +36,18 @@ export default function ProfileOverview({
           >
             {profile.emoji}
           </div>
-          <Button
-            type="button"
-            size="icon"
-            disabled
-            aria-label="프로필 이미지 변경, 준비 중"
-            aria-describedby="profile-image-description"
-            className="bg-app-accent text-app-bg absolute -right-1 -bottom-1 size-7 rounded-full"
-          >
-            <Camera className="size-4" />
-          </Button>
+          {isOwnProfile && (
+            <Button
+              type="button"
+              size="icon"
+              disabled
+              aria-label="프로필 이미지 변경, 준비 중"
+              aria-describedby="profile-image-description"
+              className="bg-app-accent text-app-bg absolute -right-1 -bottom-1 size-7 rounded-full"
+            >
+              <Camera className="size-4" />
+            </Button>
+          )}
         </div>
         <div className="min-w-0 flex-1 basis-32">
           <h1 id="profile-name" className="text-2xl font-bold break-words">
@@ -78,33 +80,40 @@ export default function ProfileOverview({
       <p className="text-app-subtext text-sm leading-relaxed break-words whitespace-pre-wrap">
         {profile.bio}
       </p>
-      <p id="profile-image-description" className="text-app-subtext text-xs">
-        프로필 이미지 변경 기능은 준비 중입니다.
-      </p>
-      <dl className="grid grid-cols-3 gap-2 sm:gap-4">
-        {[
-          {
-            value: totalDistance.toLocaleString("ko-KR", {
-              maximumFractionDigits: 1,
-            }),
-            label: "km 총 거리",
-          },
-          { value: runCount, label: "회 총 러닝" },
-          { value: crewCount, label: "개 가입한 크루" },
-        ].map((item) => (
-          <div
-            key={item.label}
-            className="bg-app-card flex min-w-0 flex-col-reverse gap-1 rounded-2xl px-2 py-4 text-center sm:px-4"
+      {isOwnProfile && (
+        <>
+          <p
+            id="profile-image-description"
+            className="text-app-subtext text-xs"
           >
-            <dt className="text-app-subtext text-xs sm:text-sm">
-              {item.label}
-            </dt>
-            <dd className="text-xl font-bold break-words sm:text-3xl">
-              {item.value}
-            </dd>
-          </div>
-        ))}
-      </dl>
+            프로필 이미지 변경 기능은 준비 중입니다.
+          </p>
+          <dl className="grid grid-cols-3 gap-2 sm:gap-4">
+            {[
+              {
+                value: totalDistance.toLocaleString("ko-KR", {
+                  maximumFractionDigits: 1,
+                }),
+                label: "km 총 거리",
+              },
+              { value: runCount, label: "회 총 러닝" },
+              { value: crewCount, label: "개 가입한 크루" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="bg-app-card flex min-w-0 flex-col-reverse gap-1 rounded-2xl px-2 py-4 text-center sm:px-4"
+              >
+                <dt className="text-app-subtext text-xs sm:text-sm">
+                  {item.label}
+                </dt>
+                <dd className="text-xl font-bold break-words sm:text-3xl">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </>
+      )}
     </section>
   );
 }
