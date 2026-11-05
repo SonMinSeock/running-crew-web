@@ -3,12 +3,17 @@
  */
 import { useRef, useState } from "react";
 import { MessageCircle, UserRound } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import DeleteConfirmationDialog from "@/components/common/DeleteConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import FeedCommentForm from "./FeedCommentForm";
+import FeedReportDialog from "./FeedReportDialog";
 import { runDateTimeFormatter } from "@/lib/date";
 
 const FEED_COMMENT_MANAGEMENT_SAMPLE_ACTIVITY_ID = 1;
+const FEED_COMMENT_REPORT_SAMPLE_ACTIVITY_ID = 2;
+const REPORT_SAMPLE_COMMENT_ID = "report-sample-comment";
+const REPORT_SAMPLE_REPLY_ID = "report-sample-reply";
 
 interface FeedComment {
   id: string;
@@ -18,16 +23,36 @@ interface FeedComment {
   createdAt: string;
 }
 
+const REPORT_SAMPLE_COMMENTS: FeedComment[] = [
+  {
+    id: REPORT_SAMPLE_COMMENT_ID,
+    parentId: null,
+    nickname: "김새벽",
+    content: "바쁜 날에도 5km를 달리셨네요. 응원합니다!",
+    createdAt: "2026-10-29T16:00:00+09:00",
+  },
+  {
+    id: REPORT_SAMPLE_REPLY_ID,
+    parentId: REPORT_SAMPLE_COMMENT_ID,
+    nickname: "박달리기",
+    content: "저도 다음 러닝에 함께하고 싶어요.",
+    createdAt: "2026-10-29T16:20:00+09:00",
+  },
+];
+
 interface FeedCommentsProps {
   activityId: number;
 }
 
 // 저장된 값의 형태를 검사해 손상된 데이터가 화면을 중단하지 않게 한다.
-function readComments(key: string): FeedComment[] {
+function readComments(
+  key: string,
+  sampleComments: FeedComment[],
+): FeedComment[] {
   const value: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
   if (!Array.isArray(value)) throw new Error("Invalid comments");
-  const comments: FeedComment[] = [];
-  const ids = new Set<string>();
+  const comments = [...sampleComments];
+  const ids = new Set(sampleComments.map((comment) => comment.id));
   for (const item of value) {
     if (
       typeof item !== "object" ||
@@ -64,13 +89,19 @@ function readComments(key: string): FeedComment[] {
 }
 
 export default function FeedComments({ activityId }: FeedCommentsProps) {
+  const { key: locationKey } = useLocation();
   const storageKey = `running-crew:feed-comments:v1:${activityId}`;
+  const reportSamples =
+    activityId === FEED_COMMENT_REPORT_SAMPLE_ACTIVITY_ID
+      ? REPORT_SAMPLE_COMMENTS
+      : [];
+
   const [initial] = useState(() => {
     try {
-      return { comments: readComments(storageKey), error: "" };
+      return { comments: readComments(storageKey, reportSamples), error: "" };
     } catch {
       return {
-        comments: [] as FeedComment[],
+        comments: reportSamples,
         error:
           "저장된 댓글을 읽지 못했습니다. 새 댓글은 이 화면에서 작성할 수 있습니다.",
       };
@@ -126,7 +157,10 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
     const nextComments = [...comments, comment];
     setComments(nextComments);
     try {
-      localStorage.setItem(storageKey, JSON.stringify(nextComments));
+      const storedComments = nextComments.filter(
+        (item) => !reportSamples.some((sample) => sample.id === item.id),
+      );
+      localStorage.setItem(storageKey, JSON.stringify(storedComments));
       setMessage(parentId ? "답글을 등록했습니다." : "댓글을 등록했습니다.");
     } catch {
       setMessage(
@@ -138,6 +172,33 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
   const closeReply = (id: string) => {
     setReplyId(null);
     replyButtons.current.get(id)?.focus();
+  };
+
+  const renderReportAction = (comment: FeedComment) => {
+    if (!isOpen || !reportSamples.some((sample) => sample.id === comment.id)) {
+      return null;
+    }
+
+    const targetLabel = comment.parentId === null ? "댓글" : "대댓글";
+
+    return (
+      <FeedReportDialog
+        key={`${locationKey}-${comment.id}`}
+        targetLabel={targetLabel}
+        author={comment.nickname}
+        content={comment.content}
+        trigger={
+          <Button
+            type="button"
+            variant="link"
+            aria-label={`${comment.nickname} 님의 ${targetLabel} 신고`}
+            className="text-app-subtext mt-1 cursor-pointer px-0"
+          >
+            신고
+          </Button>
+        }
+      />
+    );
   };
 
   const renderCommentActions = (comment: FeedComment) => {
@@ -278,6 +339,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                     답글
                   </Button>
                   {renderCommentActions(comment)}
+                  {renderReportAction(comment)}
                 </div>
                 {comments.some((reply) => reply.parentId === comment.id) && (
                   <ul
@@ -291,6 +353,7 @@ export default function FeedComments({ activityId }: FeedCommentsProps) {
                           {commentBody(reply)}
                           <div className="flex flex-wrap items-center gap-x-3">
                             {renderCommentActions(reply)}
+                            {renderReportAction(reply)}
                           </div>
                         </li>
                       ))}
