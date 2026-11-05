@@ -30,6 +30,7 @@ export default function ProfilePage() {
     <div className="space-y-6">
       <ProfileOverview
         profile={USER_PROFILE}
+        isOwnProfile={true}
         totalDistance={totalDistance}
         runCount={runs.length}
         crewCount={crewCount}

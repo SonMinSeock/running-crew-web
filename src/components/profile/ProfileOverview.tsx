@@ -9,6 +9,7 @@ import type { UserProfile } from "@/data/profile";
 
 interface ProfileOverviewProps {
   profile: UserProfile;
+  isOwnProfile: boolean;
   totalDistance: number;
   runCount: number;
   crewCount: number;
@@ -16,6 +17,7 @@ interface ProfileOverviewProps {
 
 export default function ProfileOverview({
   profile,
+  isOwnProfile,
   totalDistance,
   runCount,
   crewCount,
@@ -57,15 +59,21 @@ export default function ProfileOverview({
             <span className="min-w-0 break-words">{profile.region}</span>
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <Button asChild variant="ghost" className="bg-app-card rounded-full">
-            <Link to="/profile/edit">
-              <Pencil aria-hidden="true" className="size-4" />
-              편집
-            </Link>
-          </Button>
-          <LogoutConfirmationDialog />
-        </div>
+        {isOwnProfile && (
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              asChild
+              variant="ghost"
+              className="bg-app-card rounded-full"
+            >
+              <Link to="/profile/edit">
+                <Pencil aria-hidden="true" className="size-4" />
+                편집
+              </Link>
+            </Button>
+            <LogoutConfirmationDialog />
+          </div>
+        )}
       </div>
       <p className="text-app-subtext text-sm leading-relaxed break-words whitespace-pre-wrap">
         {profile.bio}
