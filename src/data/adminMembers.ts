@@ -1,10 +1,17 @@
 /**
- * 운영자 콘솔의 회원 목록에 사용할 샘플 데이터를 정의한다.
+ * 운영자 콘솔의 샘플 회원과 크루 가입 관계를 정의한다.
  */
 export interface AdminMember {
   id: number;
   nickname: string;
   email: string;
+  joinedAt: string;
+}
+
+interface AdminCrewMembership {
+  memberId: number;
+  crewId: number;
+  isLeader: boolean;
   joinedAt: string;
 }
 
@@ -80,5 +87,39 @@ export const ADMIN_MEMBERS: AdminMember[] = [
     nickname: "달빛러너",
     email: "moonlight.running.crew.member@example.com",
     joinedAt: "2026-11-07T21:00:00+09:00",
+  },
+];
+
+// 운영자 화면의 샘플 회원 ID와 기존 크루 ID를 연결한다.
+export const ADMIN_CREW_MEMBERSHIPS: AdminCrewMembership[] = [
+  {
+    memberId: 12,
+    crewId: 2,
+    isLeader: false,
+    joinedAt: "2026-11-07T22:30:00+09:00",
+  },
+  {
+    memberId: 12,
+    crewId: 8,
+    isLeader: true,
+    joinedAt: "2026-11-08T19:20:00+09:00",
+  },
+  {
+    memberId: 10,
+    crewId: 10,
+    isLeader: false,
+    joinedAt: "2026-10-29T08:30:00+09:00",
+  },
+  {
+    memberId: 2,
+    crewId: 2,
+    isLeader: false,
+    joinedAt: "2026-09-08T18:30:00+09:00",
+  },
+  {
+    memberId: 1,
+    crewId: 1,
+    isLeader: false,
+    joinedAt: "2026-09-01T09:00:00+09:00",
   },
 ];

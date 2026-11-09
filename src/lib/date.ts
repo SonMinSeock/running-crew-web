@@ -21,6 +21,14 @@ export const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
   day: "numeric",
 });
 
+// 서비스와 크루의 가입일을 연도를 포함한 한국 날짜로 표시한다.
+export const joinedDateFormatter = new Intl.DateTimeFormat("ko-KR", {
+  timeZone: "Asia/Seoul",
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
 // 러닝 목록·다음 일정·프로필 통계에 월·일·요일을 표시한다.
 export const runDateFormatter = new Intl.DateTimeFormat("ko-KR", {
   timeZone: "Asia/Seoul",
