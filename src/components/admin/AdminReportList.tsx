@@ -1,6 +1,7 @@
 /**
  * 운영자 신고 목록을 화면 너비에 따라 표 또는 세로 목록으로 표시한다.
  */
+import { Link, useLocation } from "react-router-dom";
 import {
   REPORT_STATUS_LABELS,
   REPORT_TYPE_LABELS,
@@ -8,11 +9,16 @@ import {
 } from "@/data/adminReports";
 import { noticeDateTimeFormatter } from "@/lib/date";
 
+const reportLinkClassName =
+  "hover:text-app-accent focus-visible:outline-app-accent rounded underline decoration-app-border underline-offset-4 hover:decoration-current focus-visible:outline-2 focus-visible:outline-offset-2";
+
 interface AdminReportListProps {
   reports: AdminReport[];
 }
 
 export default function AdminReportList({ reports }: AdminReportListProps) {
+  const { search } = useLocation();
+
   return (
     <div className="bg-app-card border-app-border overflow-hidden rounded-2xl border">
       <table className="hidden w-full table-fixed text-left text-sm md:table">
@@ -43,7 +49,12 @@ export default function AdminReportList({ reports }: AdminReportListProps) {
                 {REPORT_TYPE_LABELS[report.type]}
               </td>
               <th scope="row" className="px-4 py-4 font-semibold wrap-anywhere">
-                {report.targetSummary}
+                <Link
+                  to={{ pathname: `/admin/reports/${report.id}`, search }}
+                  className={reportLinkClassName}
+                >
+                  {report.targetSummary}
+                </Link>
               </th>
               <td className="text-app-subtext px-4 py-4">{report.reason}</td>
               <td className="px-4 py-4">
@@ -70,7 +81,12 @@ export default function AdminReportList({ reports }: AdminReportListProps) {
               <div>
                 <dt className="text-app-subtext text-xs">대상 요약</dt>
                 <dd className="mt-1 font-semibold wrap-anywhere">
-                  {report.targetSummary}
+                  <Link
+                    to={{ pathname: `/admin/reports/${report.id}`, search }}
+                    className={reportLinkClassName}
+                  >
+                    {report.targetSummary}
+                  </Link>
                 </dd>
               </div>
               <div>

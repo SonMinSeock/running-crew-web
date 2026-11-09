@@ -12,6 +12,7 @@ import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import AdminMembersPage from "./pages/admin/AdminMembersPage";
 import AdminReportsPage from "./pages/admin/AdminReportsPage";
+import AdminReportDetailPage from "./pages/admin/AdminReportDetailPage";
 import CrewPage from "./pages/crew/CrewPage";
 import CrewEditPage from "./pages/crew/CrewEditPage";
 import CrewCreatePage from "./pages/crew/CrewCreatePage";
@@ -48,6 +49,7 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminMembersPage />} />
           <Route path="reports" element={<AdminReportsPage />} />
+          <Route path="reports/:reportId" element={<AdminReportDetailPage />} />
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
