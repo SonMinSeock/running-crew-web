@@ -11,6 +11,7 @@ import MainLayout from "./layouts/main/MainLayout";
 import AdminLayout from "./layouts/admin/AdminLayout";
 import AdminLoginPage from "./pages/admin/AdminLoginPage";
 import AdminMembersPage from "./pages/admin/AdminMembersPage";
+import AdminReportsPage from "./pages/admin/AdminReportsPage";
 import CrewPage from "./pages/crew/CrewPage";
 import CrewEditPage from "./pages/crew/CrewEditPage";
 import CrewCreatePage from "./pages/crew/CrewCreatePage";
@@ -46,6 +47,7 @@ function App() {
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminMembersPage />} />
+          <Route path="reports" element={<AdminReportsPage />} />
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
