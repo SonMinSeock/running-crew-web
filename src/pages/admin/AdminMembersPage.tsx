@@ -95,7 +95,6 @@ export default function AdminMembersPage() {
         totalPages={totalPages}
         label="회원 목록 페이지"
         onPageChange={setPage}
-        variant="numbered"
       />
     </section>
   );
