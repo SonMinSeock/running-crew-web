@@ -1,11 +1,12 @@
 /**
- * 회원 ID로 샘플 회원을 찾아 기본 정보를 표시한다.
+ * 회원 ID로 샘플 회원을 찾아 기본 정보와 가입 크루를 표시한다.
  */
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ADMIN_MEMBERS } from "@/data/adminMembers";
+import { ADMIN_CREW_MEMBERSHIPS, ADMIN_MEMBERS } from "@/data/adminMembers";
+import { CREWS } from "@/data/crews";
 import { joinedDateFormatter } from "@/lib/date";
 
 export default function AdminMemberDetailPage() {
@@ -38,6 +39,19 @@ export default function AdminMemberDetailPage() {
       </section>
     );
   }
+
+  const joinedCrews = ADMIN_CREW_MEMBERSHIPS.filter(
+    (membership) => membership.memberId === member.id,
+  )
+    .flatMap((membership) => {
+      const crew = CREWS.find((item) => item.id === membership.crewId);
+      return crew ? [{ ...membership, crew }] : [];
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.joinedAt).getTime() - new Date(a.joinedAt).getTime() ||
+        a.crewId - b.crewId,
+    );
 
   return (
     <section
@@ -76,6 +90,44 @@ export default function AdminMemberDetailPage() {
             </dd>
           </div>
         </dl>
+      </section>
+
+      <section
+        aria-labelledby="admin-member-crews-title"
+        className="bg-app-card border-app-border rounded-2xl border p-5"
+      >
+        <h2 id="admin-member-crews-title" className="font-bold">
+          가입 크루
+        </h2>
+        {joinedCrews.length === 0 ? (
+          <p className="text-app-subtext mt-3 text-sm">
+            가입한 크루가 없습니다.
+          </p>
+        ) : (
+          <ul className="divide-app-border mt-2 divide-y">
+            {joinedCrews.map(({ crew, isLeader, joinedAt }) => (
+              <li key={crew.id} className="space-y-2 py-3 text-sm">
+                <h3 className="font-semibold wrap-anywhere">{crew.name}</h3>
+                <dl className="text-app-subtext flex flex-wrap gap-x-5 gap-y-1">
+                  <div className="flex gap-2">
+                    <dt>역할</dt>
+                    <dd className="text-app-text">
+                      {isLeader ? "크루장" : "멤버"}
+                    </dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt>크루 가입일</dt>
+                    <dd className="text-app-text">
+                      <time dateTime={joinedAt}>
+                        {joinedDateFormatter.format(new Date(joinedAt))}
+                      </time>
+                    </dd>
+                  </div>
+                </dl>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </section>
   );
