@@ -1,7 +1,8 @@
 /**
  * 서비스 회원을 최근 가입순으로 정렬하고 검색 결과를 페이지별로 표시한다.
  */
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import AdminMemberList from "@/components/admin/AdminMemberList";
 import ListPagination from "@/components/common/ListPagination";
 import SearchInput from "@/components/common/SearchInput";
@@ -11,8 +12,8 @@ import { ADMIN_MEMBERS } from "@/data/adminMembers";
 const PAGE_SIZE = 10;
 
 export default function AdminMembersPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get("q") ?? "";
   const searchInputRef = useRef<HTMLInputElement>(null);
   const members = [...ADMIN_MEMBERS].sort(
     (a, b) =>
@@ -26,19 +27,42 @@ export default function AdminMembersPage() {
       member.email.toLowerCase().includes(normalizedSearchTerm),
   );
   const totalPages = Math.ceil(filteredMembers.length / PAGE_SIZE);
+  const requestedPage = Number(searchParams.get("page"));
+  const page =
+    Number.isSafeInteger(requestedPage) && requestedPage > 0
+      ? Math.min(requestedPage, Math.max(1, totalPages))
+      : 1;
   const visibleMembers = filteredMembers.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE,
   );
 
   const changeSearchTerm = (value: string) => {
-    setSearchTerm(value);
-    setPage(1);
+    const nextParams = new URLSearchParams(searchParams);
+    if (value === "") {
+      nextParams.delete("q");
+    } else {
+      nextParams.set("q", value);
+    }
+    nextParams.delete("page");
+    setSearchParams(nextParams, { replace: true });
   };
 
   const handleReset = () => {
     changeSearchTerm("");
     searchInputRef.current?.focus();
+  };
+
+  const changePage = (nextPage: number) => {
+    if (nextPage === page) return;
+
+    const nextParams = new URLSearchParams(searchParams);
+    if (nextPage === 1) {
+      nextParams.delete("page");
+    } else {
+      nextParams.set("page", String(nextPage));
+    }
+    setSearchParams(nextParams);
   };
 
   return (
@@ -94,7 +118,7 @@ export default function AdminMembersPage() {
         page={page}
         totalPages={totalPages}
         label="회원 목록 페이지"
-        onPageChange={setPage}
+        onPageChange={changePage}
       />
     </section>
   );
