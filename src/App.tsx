@@ -8,6 +8,9 @@ import HomePage from "./pages/home/HomePage";
 import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import MainLayout from "./layouts/main/MainLayout";
+import AdminLayout from "./layouts/admin/AdminLayout";
+import AdminLoginPage from "./pages/admin/AdminLoginPage";
+import AdminMembersPage from "./pages/admin/AdminMembersPage";
 import CrewPage from "./pages/crew/CrewPage";
 import CrewEditPage from "./pages/crew/CrewEditPage";
 import CrewCreatePage from "./pages/crew/CrewCreatePage";
@@ -39,6 +42,10 @@ function App() {
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+        </Route>
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminMembersPage />} />
         </Route>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
